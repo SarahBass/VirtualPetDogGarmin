@@ -1,0 +1,4 @@
+<fonts>
+<font id = "DinFont" filename = "fonticons2.fnt" filter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890{}:~ ^$[]_%.,-"/>
+<font id = "WeatherFont" filename = "numberssymbols.fnt" filter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#$%{}: ^()[?]_%.,-"/>
+</fonts>

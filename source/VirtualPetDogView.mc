@@ -177,12 +177,12 @@ today.day_of_week
                 hours = hours.format("%02d");
             }
         }
-    var timeString = Lang.format(timeFormat, [hours, clockTime.min.format("%02d")]);
-    var today = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+    var minString = clockTime.min.format("%02d");
+    
+    var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
     var dateString = Lang.format(
-    "$1$$2$$3$$4$",
+    "$1$-$2$-$3$",
     [
-        today.day_of_week,
         today.month,
         today.day,
         today.year
@@ -190,9 +190,9 @@ today.day_of_week
     );
     var mySettings = System.getDeviceSettings();
     var myStats = System.getSystemStats();
-    var genderEntry;
-    if (profile.gender== 0){genderEntry= "u";}
-    else {genderEntry= "t";}
+    //var genderEntry;
+    //if (profile.gender== 0){genderEntry= "u";}
+    //else {genderEntry= "t";}
     var birthEntry =profile.birthYear;
     var phonestatus = mySettings.phoneConnected;
     var info = ActivityMonitor.getInfo();
@@ -204,7 +204,7 @@ today.day_of_week
     var heart = "";
     if (seconds%2 == 0){if (sensorIter != null) {
      heart =(sensorIter.next().data);
-    }else { heart = "";}}else {heart = "";}
+    }else { heart = "--";}}else {heart = "--";}
  	
     var timeStamp= new Time.Moment(Time.today().value());
          
@@ -250,9 +250,9 @@ today.day_of_week
     var AMPM = "";       
     if (!System.getDeviceSettings().is24Hour) {
         if (clockTime.hour > 12) {
-                AMPM = "PM";
+                AMPM = "N";
             }else{
-                AMPM = "AM";
+                AMPM = "M";
             }}
 
   /*
@@ -273,38 +273,15 @@ today.day_of_week
     FC = "C";
     }else{
     TEMP = ((((((Toybox.Weather.getCurrentConditions().feelsLikeTemperature).toDouble())*9)/5)+32).toNumber()); 
-    FC = "F";   
+    FC = "A";   
     }
-
-
-    var monthString = Lang.format(
-    "$1$",
-    [
-    today.month
-    ]);
-
     var horoscopeYear = getChineseYear(today.year);
     var horoscopeBirth =getChineseYear(birthEntry);
-    var monthZodiac = getHoroscope(4, 25);
-
-
-
-
-
-//----------PRINT TO SYSTEM CHECKS ------------------------------------
-//System.println(AMPM);
-//System.println(sunsetHour + ":" + sunset.min.format("%02u")+"PM");
-//System.println(sunriseHour + ":" + sunrise.min.format("%02u")+"AM");
-//System.println("You have taken: " + steps +
-//               " steps and burned: " + calories + " calories!");
-//System.println(myStats.totalMemory);
-//System.println(myStats.usedMemory);
-//System.println(myStats.freeMemory);
-//----------PRINT TO SYSTEM CHECKS ------------------------------------        
-        
+    var monthZodiac = getHoroscope(today.month, today.day);
         
     // Variables of text From Layout-------------------------------------------
         var timeText = View.findDrawableById("TimeLabel") as Text;
+        var AMPMText = View.findDrawableById("AMLabel") as Text;
         var dateText = View.findDrawableById("DateLabel") as Text;
         var batteryText = View.findDrawableById("batteryLabel") as Text;
         var heartText = View.findDrawableById("heartLabel") as Text;
@@ -318,7 +295,7 @@ today.day_of_week
         var temperatureText = View.findDrawableById("tempLabel") as Text;
         var connectTextP = View.findDrawableById("connectLabelP") as Text;
         var connectTextB = View.findDrawableById("connectLabelB") as Text;
-        
+        var weatherText = View.findDrawableById("weatherLabel") as Text;
     // Variables for Data END-------------------------------------------
 /*
           _     _           _   
@@ -329,53 +306,20 @@ today.day_of_week
 Set Text Values from Data Variables 
 */
 //---------------------------TEXT---------------------------------------------
-//DinFont Symbols {=battery _or[=calorie ]=phone ^=heart steps=< add space too change :
+
         sunriseText.setText(sunriseHour + ":" + sunrise.min.format("%02u")+"AM");
         sunsetText.setText(sunsetHour + ":" + sunset.min.format("%02u")+"PM");
-        temperatureText.setText(""+ TEMP +""+ FC);
-        //cond is condition number
-        timeText.setText(timeString+" "+AMPM);
+        temperatureText.setText(TEMP+FC);
+        timeText.setText(hours + ":" + minString );
+        AMPMText.setText(AMPM);
         dateText.setText(dateString);
         batteryText.setText(battery + "%"+"{");
-        heartText.setText("-"+heart+"-"+"^");
+        heartText.setText(heart+"^");
         stepText.setText(steps+"~");
         calorieText.setText(calories+"_");
         sunriseTextSU.setText("l");
         sunsetTextSD.setText("n");
-        /*
-        Font:
-        a rain
-        b sun
-        c rainsuncloud
-        d dragon
-        e cloud
-        f whirl
-        g wind
-        h rat
-        i snow
-        j dog
-        k tiger
-        l sun up
-        m rabbit
-        n sun down
-        o snake
-        p horse
-        q rooster
-        r monkey
-        s pig
-        t male
-        u female
-        v aquarius
-        w aries
-        x gemini
-        y leo
-        z libra
-        exclaimation point  cancer
-        #= taurus
-        {=Virgo
-        }=Pisces
-
-        */
+        weatherText.setText(weather(cond));
         horoscopeText.setText(horoscopeYear + ""+ horoscopeBirth + "" + monthZodiac);
         connectTextP.setText("]");
         connectTextB.setText("{");
@@ -417,31 +361,8 @@ function getIterator() {
 
 //Takes in Year % 12 and Gives A Rough Chinese Horoscope
 //Not Totally Accurate if Month falls in January or February
-//Look at the 2022-2030 Function below to see inaccuracies 
 
-//You Could Use Ranges of DaysSinceEpoch To Make Accurate
-//But I Took the lazy Route to save memory using a case switch
 
-/* Also Here is a unused Happy Chinese New Year Message Function:  
-if (month == 1 && day == 1 && year == 2022) {
-        return "Happy Lunar New Year!";
-      } else if (month == 0 && day == 22 && year == 2023) {
-        return "Happy Lunar New Year!";
-      } else if (month == 1 && day == 10 && year == 2024) {
-        return "Happy Lunar New Year!";
-      } else if (month == 0 && day == 29 && year == 2025) {
-        return "Happy Lunar New Year!";
-      } else if (month == 1 && day == 17 && year == 2026) {
-        return "Happy Lunar New Year!";
-      } else if (month == 1 && day == 7 && year == 2027) {
-        return "Happy Lunar New Year!";
-      } else if (month == 0 && day == 26 && year == 2028) {
-        return "Happy Lunar New Year!";
-      } else if (month == 1 && day == 13 && year == 2029) {
-        return "Happy Lunar New Year!";
-      } else if (month == 1 && day == 2 && year == 2030) {
-        return "Happy Lunar New Year!";
-*/
 function getChineseYear(year){
     var value = ((((year).toNumber())%12).toNumber());
         switch(value){
@@ -461,7 +382,7 @@ function getChineseYear(year){
                 return "h";//"rat";
                 //break;  
             case 5:
-                return "?";//"ox";
+                return "K";//"ox";
                 //break;  
             case 6:
                 return "k";//"tig";
@@ -479,7 +400,7 @@ function getChineseYear(year){
                 return "p";//"hor";
                 //break;
             case 11:
-                return "?";//"goa";
+                return "L";//"goa";
                 //break;                         
             default:
             return "d";
@@ -490,16 +411,9 @@ function getChineseYear(year){
  |  \/  |___  ___ _ _   | _ \ |_  __ _ ___ ___ 
  | |\/| / _ \/ _ \ ' \  |  _/ ' \/ _` (_-</ -_)
  |_|  |_\___/\___/_||_| |_| |_||_\__,_/__/\___|
- This is not Totally Accurate Either Sadly
- It can be improved, but I took the lazy Route 
  This is based on a Farmers Almanac -
  Which Moonphases are 3 Days Each instead of Modern 1 Day
- So it Will show Quarter Moon, Full Moon, and New Moon for 3 Days
- If you are only Drawing the Moon - Should be Fine
- If you want exact Moon Dates Here Are Github Functions for 2022-2030
- ((You can use these Javascript function directly in Monkey C- no changes needed))
- https://github.com/SarahBass/Javascript-Moon-Functions/blob/main/Newmoon.js
- https://github.com/SarahBass/Javascript-Moon-Functions/blob/main/FullMoon.js
+ 
 */
 function getMoonPhase(year, month, day) {
 
@@ -547,19 +461,19 @@ function getHoroscope(month, day) {
 
      if (month == 0) {
         if (day > 0 && day < 19) {
-          return "?";//"Cap";
+          return "B";//"Cap";
         } else {
           return "v";//"Aqu";
         }
       } else if (month == 1) {
         if (day > 1 && day < 18) {
-          return "?";//"Cap";
+          return "B";//"Cap";
         } else {
-          return "}";//"Pis";
+          return "@";//"Pis";
         }
       } else if (month == 2) {
         if (day > 1 && day < 20) {
-          return "}";//"Pis";
+          return "@";//"Pis";
         } else {
           return "w";//"Ari";
         }
@@ -567,19 +481,19 @@ function getHoroscope(month, day) {
         if (day > 1 && day < 19) {
           return "w";//"Ari";
         } else {
-          return "#";//"Tau";
+          return "F";//"Tau";
         }
       } else if (month == 4) {
-        return "#";//"Tau";
+        return "F";//"Tau";
       } else if (month == 5) {
         if (day > 1 && day < 20) {
           return "x";//"Gem";
         } else {
-          return "!";//"Can";
+          return "C";//"Can";
         }
       } else if (month == 6) {
         if (day > 1 && day < 22) {
-          return "!";//"Can";
+          return "C";//"Can";
         } else {
           return "y";//"Leo";
         }
@@ -587,11 +501,11 @@ function getHoroscope(month, day) {
         if (day > 1 && day < 22) {
           return "y";//"Leo";
         } else {
-          return "{";//"Vir";
+          return "H";//"Vir";
         }
       } else if (month == 8) {
         if (day > 1 && day < 22) {
-          return "{";//"Vir";
+          return "H";//"Vir";
         } else {
           return "z";//"Lib";
         }
@@ -599,25 +513,34 @@ function getHoroscope(month, day) {
         if (day > 1 && day < 22) {
           return "z";//"Lib";
         } else {
-          return "?";//"Sco";
+          return "G";//"Sco";
         }
       } else if (month == 10) {
         if (day > 1 && day < 21) {
-          return "?";//"Sco";
+          return "G";//"Sco";
         } else {
-          return "?";//"Sag";
+          return "E";//"Sag";
         }
       } else if (month == 11) {
         if (day > 1 && day < 21) {
-          return "?";//"Sag";
+          return "E";//"Sag";
         } else {
-          return "?";//"Cap";
+          return "B";//"Cap";
         }
       } else {
         return "w";//"Ari";
       }
     }
-
+        //cond is condition number
+function weather(cond) {
+  if (cond == 0 || cond == 40){return "b";}//sun
+  else if (cond == 50 || cond == 49 ||cond == 47||cond == 45||cond == 44||cond == 42||cond == 31||cond == 27||cond == 26||cond == 25||cond == 24||cond == 21||cond == 18||cond == 15||cond == 14||cond == 13||cond == 11||cond == 3){return "a";}//rain
+  else if (cond == 52||cond == 20||cond == 2||cond == 1){return "e";}//cloud
+  else if (cond == 5 || cond == 8|| cond == 9|| cond == 29|| cond == 30|| cond == 33|| cond == 35|| cond == 37|| cond == 38|| cond == 39){return "g";}//wind
+  else if (cond == 51 || cond == 48|| cond == 46|| cond == 43|| cond == 10|| cond == 4){return "i";}//snow
+  else if (cond == 32 || cond == 37|| cond == 41|| cond == 42){return "f";}//whirl
+  else {return "c";}
+}
 /*
    ___                _       __   __   _    _  
   / __|__ _ _ _ _ __ (_)_ _   \ \ / /__(_)__| | 
@@ -640,3 +563,48 @@ function getHoroscope(month, day) {
     }
 
 }
+/*
+       Horoscope, Zodiac, and Weather Font:
+        A FAR
+        B capricorn
+        C CELCIUS
+        D C
+        E SAGIT
+        F TAUR
+        G SCORP
+        H VIRGO
+        I LIBRA
+        J LEO
+        K BULL
+        L SHEEP
+        M PM
+        N AM
+        0 :
+        a rain
+        b sun
+        c rainsuncloud
+        d dragon
+        e cloud
+        f whirl
+        g wind
+        h rat
+        i snow
+        j dog
+        k tiger
+        l sun up
+        m rabbit
+        n sun down
+        o snake
+        p horse
+        q rooster
+        r monkey
+        s pig
+        t male
+        u female
+        v aquarius
+        w aries
+        x gemini
+        y leo
+        z libra
+        */
+//DinFont Symbols {=battery _or[=calorie ]=phone ^=heart steps=< add space too change :

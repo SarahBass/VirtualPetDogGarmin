@@ -24,6 +24,7 @@ using Toybox.Application as App;
 class VirtualPetDogView extends Ui.WatchFace {
 var sensorIter = getIterator();
 var moon1;
+var rightbar;
  var venus2X = LAYOUT_HALIGN_RIGHT;
     var venus2Y = LAYOUT_VALIGN_CENTER;
     var venus2XL = 20;
@@ -33,21 +34,9 @@ var moon1;
     var venus2YS = 78;  
     function initialize() {
         WatchFace.initialize();
-         View.initialize();
-        var today = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-var fulldateString = Lang.format(
-    "$1$ $2$",
-    [
-        today.month,
-        today.day,
-    ] 
-);
+        View.initialize();
+        var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
 
-var dayString = Lang.format(
-    "$1$",
-[
-today.day_of_week
-]);
 // 0 => New Moon
   // 1 => Waxing Crescent Moon
   // 2 => Quarter Moon
@@ -56,9 +45,13 @@ today.day_of_week
   // 5 => Waning Gibbous Moon
   // 6 => Last Quarter Moon
   // 7 => Waning Crescent Moon
-  var moonnumber = getMoonPhase(2023, 3, 25);
+  var moonnumber = getMoonPhase(today.year, today.month, today.day);
   // var moonnumber = getMoonPhase(today.year, today.month, today.day);
-
+rightbar = new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.rightbar,
+            :locX=> venus2X,
+            :locY=> venus2Y
+        });
   
   //Moon Bitmpas
   switch (moonnumber){
@@ -282,7 +275,7 @@ today.day_of_week
     // Variables of text From Layout-------------------------------------------
         var timeText = View.findDrawableById("TimeLabel") as Text;
         var AMPMText = View.findDrawableById("AMLabel") as Text;
-        var dateText = View.findDrawableById("DateLabel") as Text;
+       // var dateText = View.findDrawableById("DateLabel") as Text;
         var batteryText = View.findDrawableById("batteryLabel") as Text;
         var heartText = View.findDrawableById("heartLabel") as Text;
         var stepText = View.findDrawableById("stepsLabel") as Text;
@@ -295,7 +288,7 @@ today.day_of_week
         var temperatureText = View.findDrawableById("tempLabel") as Text;
         var connectTextP = View.findDrawableById("connectLabelP") as Text;
         var connectTextB = View.findDrawableById("connectLabelB") as Text;
-        var weatherText = View.findDrawableById("weatherLabel") as Text;
+      
     // Variables for Data END-------------------------------------------
 /*
           _     _           _   
@@ -309,17 +302,16 @@ Set Text Values from Data Variables
 
         sunriseText.setText(sunriseHour + ":" + sunrise.min.format("%02u")+"AM");
         sunsetText.setText(sunsetHour + ":" + sunset.min.format("%02u")+"PM");
-        temperatureText.setText(TEMP+FC);
+        temperatureText.setText(weather(cond)+TEMP+FC);
         timeText.setText(hours + ":" + minString );
         AMPMText.setText(AMPM);
-        dateText.setText(dateString);
+       // dateText.setText(dateString);
         batteryText.setText(battery + "%"+"{");
         heartText.setText(heart+"^");
         stepText.setText(steps+"~");
         calorieText.setText(calories+"_");
         sunriseTextSU.setText("l");
         sunsetTextSD.setText("n");
-        weatherText.setText(weather(cond));
         horoscopeText.setText(horoscopeYear + ""+ horoscopeBirth + "" + monthZodiac);
         connectTextP.setText("]");
         connectTextB.setText("{");
@@ -327,6 +319,7 @@ Set Text Values from Data Variables
       
         View.onUpdate(dc);
         moon1.draw(dc);
+        rightbar.draw(dc);
         /*
               _                 _      _       
   ___ _ _  __| |  _  _ _ __  __| |__ _| |_ ___ 

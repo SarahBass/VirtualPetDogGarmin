@@ -1,5 +1,5 @@
 <drawables>
-    <bitmap id="LauncherIcon" filename="launcher_icon.png" />
+<bitmap id="LauncherIcon" filename="launcher_icon.png" />
 <bitmap id="firstquar" filename="quar1.png" x = "center" dithering="none"/>
 <bitmap id="thirdquar" filename="quar3.png" x = "center" dithering="none"/>
 <bitmap id="newmoon" filename="new.png" x = "center" dithering="none"/>
@@ -8,4 +8,5 @@
 <bitmap id="wancres" filename="wancres.png" x = "center" dithering="none"/>
 <bitmap id="waxgib" filename="waxgib.png"  x = "center" dithering="none"/>
 <bitmap id="wangib" filename="wangib.png" x = "center" dithering="none"/>
+<bitmap id="rightbar" filename="rightbar.png" x = "center" dithering="none"/>
 </drawables>

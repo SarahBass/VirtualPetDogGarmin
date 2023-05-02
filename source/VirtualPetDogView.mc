@@ -36,9 +36,10 @@ var dog0;
     function initialize() {
         WatchFace.initialize();
         View.initialize();
+        
         var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
 
-// 0 => New Moon
+  // 0 => New Moon
   // 1 => Waxing Crescent Moon
   // 2 => Quarter Moon
   // 3 => Waxing Gibbous Moon
@@ -54,11 +55,7 @@ rightbar = new WatchUi.Bitmap({
             :locY=> venus2Y
         });
 
-        dog0 = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.dog0,
-            :locX=>180,
-            :locY=> 60
-        });
+
   
   //Moon Bitmpas
   switch (moonnumber){
@@ -177,8 +174,8 @@ rightbar = new WatchUi.Bitmap({
                 hours = hours.format("%02d");
             }
         }
-    var minString = clockTime.min.format("%02d");
     
+    var timeString = Lang.format(timeFormat, [hours, clockTime.min.format("%02d")]);
     var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
     var dateString = Lang.format(
     "$1$ $2$ $3$",
@@ -190,15 +187,11 @@ rightbar = new WatchUi.Bitmap({
     );
     var mySettings = System.getDeviceSettings();
     var myStats = System.getSystemStats();
-    //var genderEntry;
-    //if (profile.gender== 0){genderEntry= "u";}
-    //else {genderEntry= "t";}
     var birthEntry =profile.birthYear;
     var phonestatus = mySettings.phoneConnected;
     var info = ActivityMonitor.getInfo();
     var batterycharging =  myStats.charging;
     var battery = Lang.format("$1$",[((myStats.battery)).format("%2d")]);
-    var batterylife = Lang.format("$1$",[(myStats.batteryInDays).format("%2d")]);
     var steps = (info.steps);
     var calories = info.calories;
     var heart = "";
@@ -255,22 +248,16 @@ rightbar = new WatchUi.Bitmap({
                 AMPM = "M";
             }}
 
-  /*
-    if (phonestatus == true){connectTextP.setText.color = (Graphics.COLOR_GREEN);}
-    else{}
-    if (batterycharging == true){}
-    else{}
-    */
     
     var TempMetric = System.getDeviceSettings().temperatureUnits;
 
     var TEMP = Toybox.Weather.getCurrentConditions().feelsLikeTemperature;
-    var FC = "C";
+    var FC = "D";
     var cond = Toybox.Weather.getCurrentConditions().condition;
 
     if (TempMetric == System.UNIT_METRIC){
     TEMP = Toybox.Weather.getCurrentConditions().feelsLikeTemperature;
-    FC = "C";
+    FC = "D";
     }else{
     TEMP = ((((((Toybox.Weather.getCurrentConditions().feelsLikeTemperature).toDouble())*9)/5)+32).toNumber()); 
     FC = "A";   
@@ -306,27 +293,34 @@ rightbar = new WatchUi.Bitmap({
 Set Text Values from Data Variables 
 */
 //---------------------------TEXT---------------------------------------------
-// questionmark=calorie *=heart [=battery ]=steps @=battery #=phone
+
         sunriseText.setText(sunriseHour + ":" + sunrise.min.format("%02u")+"AM");
         sunsetText.setText(sunsetHour + ":" + sunset.min.format("%02u")+"PM");
         temperatureText.setText(weather(cond)+TEMP+FC);
-        timeText.setText(hours + ":" + minString+AMPM );
+        timeText.setText(timeString+AMPM );
         dateText.setText(dateString);
-        batteryText.setText(battery + "%"+"[");
-        heartText.setText(heart+"*");
-        stepText.setText(steps+"]");
-        calorieText.setText(calories+"?");
+        batteryText.setText(battery + "%"+ " =  ");
+        heartText.setText(heart+" +  ");
+        stepText.setText(steps+" ^  ");
+        calorieText.setText(calories+" ~  ");
         sunriseTextSU.setText("l");
         sunsetTextSD.setText("n");
         horoscopeText.setText(horoscopeYear + ""+ horoscopeBirth + "" + monthZodiac);
-        connectTextP.setText("#");
-        connectTextB.setText("@");
+        connectTextP.setText("  #  ");
+        connectTextB.setText("  @  ");
+          
+    if (phonestatus == true){connectTextP.setColor(0x48FF35);}
+    else{connectTextP.setColor(0xEF1EB8);}
+    if (batterycharging == true){connectTextB.setColor(0x48FF35);}
+    else{connectTextB.setColor(0xEF1EB8);}
+    
+        
        //---------------------------TEXT--------------------------------------------- 
       
         View.onUpdate(dc);
         moon1.draw(dc);
         rightbar.draw(dc);
-        dog0.draw(dc);
+        
         /*
               _                 _      _       
   ___ _ _  __| |  _  _ _ __  __| |__ _| |_ ___ 
@@ -568,7 +562,7 @@ function weather(cond) {
         A FAR
         B capricorn
         C CELCIUS
-        D C
+        D Celcius
         E SAGIT
         F TAUR
         G SCORP
@@ -607,4 +601,6 @@ function weather(cond) {
         y leo
         z libra
         */
-//DinFont Symbols {=battery _or[=calorie ]=phone ^=heart steps=< add space too change :
+
+// questionmark=calorie *=heart [=battery ]=steps @=battery #=phone
+// = is small battery ^ is small steps ~ is small calories + is small heart

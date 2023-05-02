@@ -25,6 +25,7 @@ class VirtualPetDogView extends Ui.WatchFace {
 var sensorIter = getIterator();
 var moon1;
 var rightbar;
+var dog0;
  var venus2X = LAYOUT_HALIGN_RIGHT;
     var venus2Y = LAYOUT_VALIGN_CENTER;
     var venus2XL = 20;
@@ -51,6 +52,12 @@ rightbar = new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.rightbar,
             :locX=> venus2X,
             :locY=> venus2Y
+        });
+
+        dog0 = new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.dog0,
+            :locX=>180,
+            :locY=> 60
         });
   
   //Moon Bitmpas
@@ -174,7 +181,7 @@ rightbar = new WatchUi.Bitmap({
     
     var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
     var dateString = Lang.format(
-    "$1$-$2$-$3$",
+    "$1$ $2$ $3$",
     [
         today.month,
         today.day,
@@ -274,8 +281,8 @@ rightbar = new WatchUi.Bitmap({
         
     // Variables of text From Layout-------------------------------------------
         var timeText = View.findDrawableById("TimeLabel") as Text;
-        var AMPMText = View.findDrawableById("AMLabel") as Text;
-       // var dateText = View.findDrawableById("DateLabel") as Text;
+        
+        var dateText = View.findDrawableById("DateLabel") as Text;
         var batteryText = View.findDrawableById("batteryLabel") as Text;
         var heartText = View.findDrawableById("heartLabel") as Text;
         var stepText = View.findDrawableById("stepsLabel") as Text;
@@ -299,27 +306,27 @@ rightbar = new WatchUi.Bitmap({
 Set Text Values from Data Variables 
 */
 //---------------------------TEXT---------------------------------------------
-
+// questionmark=calorie *=heart [=battery ]=steps @=battery #=phone
         sunriseText.setText(sunriseHour + ":" + sunrise.min.format("%02u")+"AM");
         sunsetText.setText(sunsetHour + ":" + sunset.min.format("%02u")+"PM");
         temperatureText.setText(weather(cond)+TEMP+FC);
-        timeText.setText(hours + ":" + minString );
-        AMPMText.setText(AMPM);
-       // dateText.setText(dateString);
-        batteryText.setText(battery + "%"+"{");
-        heartText.setText(heart+"^");
-        stepText.setText(steps+"~");
-        calorieText.setText(calories+"_");
+        timeText.setText(hours + ":" + minString+AMPM );
+        dateText.setText(dateString);
+        batteryText.setText(battery + "%"+"[");
+        heartText.setText(heart+"*");
+        stepText.setText(steps+"]");
+        calorieText.setText(calories+"?");
         sunriseTextSU.setText("l");
         sunsetTextSD.setText("n");
         horoscopeText.setText(horoscopeYear + ""+ horoscopeBirth + "" + monthZodiac);
-        connectTextP.setText("]");
-        connectTextB.setText("{");
+        connectTextP.setText("#");
+        connectTextB.setText("@");
        //---------------------------TEXT--------------------------------------------- 
       
         View.onUpdate(dc);
         moon1.draw(dc);
         rightbar.draw(dc);
+        dog0.draw(dc);
         /*
               _                 _      _       
   ___ _ _  __| |  _  _ _ __  __| |__ _| |_ ___ 

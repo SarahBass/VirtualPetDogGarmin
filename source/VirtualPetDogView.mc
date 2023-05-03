@@ -60,7 +60,7 @@ class VirtualPetDogView extends Ui.WatchFace {
 var mySettings = System.getDeviceSettings();
 var sensorIter = getIterator();
 const venus2X = LAYOUT_HALIGN_CENTER;
-const venus2Y = LAYOUT_VALIGN_CENTER;
+const venus2Y = 155;
 const venus2XL = 30;
 const venus2YS =  mySettings.screenHeight *0.22;
 const venus2XR =  mySettings.screenWidth *0.5;
@@ -201,11 +201,11 @@ const venus2XR =  mySettings.screenWidth *0.5;
        var goal = goalPhase(info.steps); 
        var moonnumber = getMoonPhase(today.year, ((today.month)-1), today.day);  
        var moon1 = moonArrFun(moonnumber);
-       var rightbar = new WatchUi.Bitmap({
+      /* var rightbar = new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.rightbar,
-            :locX=> venus2X,
-            :locY=> venus2Y
-        });
+            :locX=> LAYOUT_HALIGN_RIGHT,
+            :locY=> LAYOUT_VALIGN_START,
+        });*/
 /*
           _     _           _   
   ___ ___| |_  | |_ _____ _| |_ 
@@ -245,7 +245,7 @@ const venus2XR =  mySettings.screenWidth *0.5;
       
         View.onUpdate(dc);
         moon1.draw(dc);
-        rightbar.draw(dc);
+        //rightbar.draw(dc);
         star.draw(dc);
         eyes.draw(dc);
         mouth.draw(dc);

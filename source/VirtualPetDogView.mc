@@ -197,10 +197,10 @@ const venus2XR =  mySettings.screenWidth *0.5;
         var venus2YS;
         if (clockTime.sec%2==0){venus2YS=(mySettings.screenHeight *0.22)+2;}
         else{venus2YS=mySettings.screenHeight *0.22;} 
-       var star = starPhase(2000,venus2YS);
+       var star = starPhase(info.steps,venus2YS);
        var mouth = mouthPhase(clockTime.min, clockTime.sec,venus2YS);
        var eyes = eyesPhase(clockTime.min,venus2YS); 
-       var goal = goalPhase(6000,venus2YS); 
+       var goal = goalPhase(info.steps,venus2YS); 
        var moonnumber = getMoonPhase(today.year, ((today.month)-1), today.day);  
        var moon1 = moonArrFun(moonnumber);
 
@@ -272,7 +272,7 @@ dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 268, 266 - (info.s
   dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
   dc.drawLine(dc.getWidth(), 0, dc.getWidth(), dc.getHeight());
 }
-        /*
+ /*
               _                 _      _       
   ___ _ _  __| |  _  _ _ __  __| |__ _| |_ ___ 
  / -_) ' \/ _` | | || | '_ \/ _` / _` |  _/ -_)
@@ -477,6 +477,15 @@ function getHoroscope(month, day) {
         return "w";//"Ari";
       }
     }
+
+ /*
+                   _   _             
+ __ __ _____ __ _| |_| |_  ___ _ _  
+ \ V  V / -_) _` |  _| ' \/ -_) '_| 
+  \_/\_/\___\__,_|\__|_||_\___|_|   
+                                    
+ 
+ */   
        
 function weather(cond) {
   if (cond == 0 || cond == 40){return "b";}//sun
@@ -487,6 +496,14 @@ function weather(cond) {
   else if (cond == 32 || cond == 37|| cond == 41|| cond == 42){return "f";}//whirl
   else {return "c";}
 }
+
+/*
+  _    _ _                   
+ | |__(_) |_ _ __  __ _ _ __ 
+ | '_ \ |  _| '  \/ _` | '_ \
+ |_.__/_|\__|_|_|_\__,_| .__/
+                       |_|   
+*/      
 
  function starPhase(steps,venus2YS){
   if (steps > 1000) {
@@ -558,7 +575,7 @@ function weather(cond) {
     }
     else {
     return new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.mouth3,
+            :rezId=>Rez.Drawables.mouth1,
             :locX=> venus2XR,
             :locY=> venus2YS
         });

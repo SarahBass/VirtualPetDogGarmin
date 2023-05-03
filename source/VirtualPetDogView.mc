@@ -58,14 +58,12 @@ using Toybox.Application as App;
 //---------------------------------------------------//
 class VirtualPetDogView extends Ui.WatchFace {
 var mySettings = System.getDeviceSettings();
-var star;  
-var egg;
 var sensorIter = getIterator();
 var moon1;
 var rightbar;
 const venus2X = LAYOUT_HALIGN_CENTER;
 const venus2Y = LAYOUT_VALIGN_CENTER;
-const venus2XL = mySettings.screenWidth*0.1;
+const venus2XL = 30;
 const venus2YS =  mySettings.screenHeight *0.22;
 const venus2XR =  mySettings.screenWidth *0.5;
 /*
@@ -83,7 +81,7 @@ const venus2XR =  mySettings.screenWidth *0.5;
       var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
 
       var moonnumber = getMoonPhase(today.year, ((today.month)-1), today.day);
-     System.println(((today.month)-1));
+     //System.println(((today.month)-1));
      /*
      0 => New Moon
      1 => Waxing Crescent Moon
@@ -139,16 +137,13 @@ const venus2XR =  mySettings.screenWidth *0.5;
         
         
         moon1 = moonArray[moonnumber];
+
         rightbar = new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.rightbar,
             :locX=> venus2X,
             :locY=> venus2Y
         });
-        star = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.star,
-            :locX=> venus2XR,
-            :locY=> venus2YS
-        });
+       
     }
 /*
   _                    _   
@@ -184,13 +179,11 @@ const venus2XR =  mySettings.screenWidth *0.5;
                                     
 */
         
-       
+
        var profile = UserProfile.getProfile();
         var timeFormat = "$1$:$2$";
         var clockTime = System.getClockTime();
         var hours = clockTime.hour;
-        var minutes = clockTime.min;
-        var seconds = clockTime.sec;
         if (!System.getDeviceSettings().is24Hour) {
             if (hours > 12) {
                 hours = hours - 12;
@@ -211,7 +204,7 @@ const venus2XR =  mySettings.screenWidth *0.5;
     var myStats = System.getSystemStats();
     var info = ActivityMonitor.getInfo();
     var heart = "";
-    if (seconds%2 == 0){if (sensorIter != null) {
+    if (clockTime.sec%2 == 0){if (sensorIter != null) {
      heart =(sensorIter.next().data);
     }else { heart = "--";}}else {heart = "--";}
  	
@@ -292,8 +285,10 @@ const venus2XR =  mySettings.screenWidth *0.5;
         var temperatureText = View.findDrawableById("tempLabel") as Text;
         var connectTextP = View.findDrawableById("connectLabelP") as Text;
         var connectTextB = View.findDrawableById("connectLabelB") as Text;
-      
-    
+       var star = starPhase(info.steps);
+       var mouth = mouthPhase(clockTime.min, clockTime.sec);
+       var eyes = eyesPhase(clockTime.min); 
+       var goal = goalPhase(info.steps); 
 /*
           _     _           _   
   ___ ___| |_  | |_ _____ _| |_ 
@@ -335,6 +330,9 @@ const venus2XR =  mySettings.screenWidth *0.5;
         moon1.draw(dc);
         rightbar.draw(dc);
         star.draw(dc);
+        eyes.draw(dc);
+        mouth.draw(dc);
+        goal.draw(dc);
         /*
               _                 _      _       
   ___ _ _  __| |  _  _ _ __  __| |__ _| |_ ___ 
@@ -492,6 +490,52 @@ function weather(cond) {
   else if (cond == 51 || cond == 48|| cond == 46|| cond == 43|| cond == 10|| cond == 4){return "i";}//snow
   else if (cond == 32 || cond == 37|| cond == 41|| cond == 42){return "f";}//whirl
   else {return "c";}
+}
+
+ function starPhase(steps){
+  if (steps > 5000/5) {
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.star,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });}
+        else{
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.egg,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });}
+ }
+ function eyesPhase(minutes){
+  if (minutes%2 == 0){
+ return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.eyes,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });}
+  else { return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.eyes1,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });}
+        }
+
+
+ function mouthPhase(minutes, seconds){         
+            
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.mouth1,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });
+}
+
+function goalPhase(steps){
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.goal1,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });
 }
 /*
    ___                _       __   __   _    _  

@@ -74,33 +74,11 @@ const venus2XR =  mySettings.screenWidth *0.5;
 
     function initialize() {
       WatchFace.initialize();
-      View.initialize();
-       
-    }
-/*
-  _                    _   
- | |__ _ _  _ ___ _  _| |_ 
- | / _` | || / _ \ || |  _|
- |_\__,_|\_, \___/\_,_|\__|
-         |__/              
-*/
+      View.initialize();}
    
-    function onLayout(dc) as Void {
-        setLayout(Rez.Layouts.WatchFace(dc));
-        
-       
+    function onLayout(dc) as Void {setLayout(Rez.Layouts.WatchFace(dc));}
 
-    }
-
-    function onShow() as Void {
-    }
-/*
-                _      _             _            
-  _  _ _ __  __| |__ _| |_ ___  __ _(_)_____ __ __
- | || | '_ \/ _` / _` |  _/ -_) \ V / / -_) V  V /
-  \_,_| .__/\__,_\__,_|\__\___|  \_/|_\___|\_/\_/ 
-      |_|                                         
-*/    
+    function onShow() as Void {} 
    
     function onUpdate(dc) as Void {
 /*

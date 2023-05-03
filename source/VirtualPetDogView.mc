@@ -59,8 +59,6 @@ using Toybox.Application as App;
 class VirtualPetDogView extends Ui.WatchFace {
 var mySettings = System.getDeviceSettings();
 var sensorIter = getIterator();
-var moon1;
-var rightbar;
 const venus2X = LAYOUT_HALIGN_CENTER;
 const venus2Y = LAYOUT_VALIGN_CENTER;
 const venus2XL = 30;
@@ -77,72 +75,6 @@ const venus2XR =  mySettings.screenWidth *0.5;
     function initialize() {
       WatchFace.initialize();
       View.initialize();
-        
-      var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-
-      var moonnumber = getMoonPhase(today.year, ((today.month)-1), today.day);
-     //System.println(((today.month)-1));
-     /*
-     0 => New Moon
-     1 => Waxing Crescent Moon
-     2 => Quarter Moon
-     3 => Waxing Gibbous Moon
-     4 => Full Moon
-     5 => Waning Gibbous Moon
-     6 => Last Quarter Moon
-     7 => Waning Crescent Moon
-     */
-        var moonArray= [
-          (new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.newmoon,//0
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        })),
-        (new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.waxcres,//1
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        })),
-        (new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.firstquar,//2
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        })),
-                (new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.waxgib,//3
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        })),
-                (new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.full,//4
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        })),
-                (new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.wangib,//5
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        })),
-            (new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.thirdquar,//6
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        })),
-           (new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.wancres,//7
-            :locX=> venus2XL,
-            :locY=> venus2Y,
-        })),
-        ];
-        
-        
-        moon1 = moonArray[moonnumber];
-
-        rightbar = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.rightbar,
-            :locX=> venus2X,
-            :locY=> venus2Y
-        });
        
     }
 /*
@@ -289,6 +221,13 @@ const venus2XR =  mySettings.screenWidth *0.5;
        var mouth = mouthPhase(clockTime.min, clockTime.sec);
        var eyes = eyesPhase(clockTime.min); 
        var goal = goalPhase(info.steps); 
+       var moonnumber = getMoonPhase(today.year, ((today.month)-1), today.day);  
+       var moon1 = moonArrFun(moonnumber);
+       var rightbar = new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.rightbar,
+            :locX=> venus2X,
+            :locY=> venus2Y
+        });
 /*
           _     _           _   
   ___ ___| |_  | |_ _____ _| |_ 
@@ -399,6 +338,63 @@ function getMoonPhase(year, month, day) {
      
       return (b).toNumber();
     }
+
+     /*
+     0 => New Moon
+     1 => Waxing Crescent Moon
+     2 => Quarter Moon
+     3 => Waxing Gibbous Moon
+     4 => Full Moon
+     5 => Waning Gibbous Moon
+     6 => Last Quarter Moon
+     7 => Waning Crescent Moon
+     */
+function moonArrFun(moonnumber){
+  var moonArray= [
+          (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.newmoon,//0
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.waxcres,//1
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.firstquar,//2
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+                (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.waxgib,//3
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+                (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.full,//4
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+                (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.wangib,//5
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+            (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.thirdquar,//6
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+           (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.wancres,//7
+            :locX=> venus2XL,
+            :locY=> venus2Y,
+        })),
+        ];
+        return moonArray[moonnumber];
+}
+
 /*
   ____        _ _           __  __         _   _    
  |_  /___  __| (_)__ _ __  |  \/  |___ _ _| |_| |_  

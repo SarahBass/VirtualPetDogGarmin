@@ -1,3 +1,23 @@
+/*                                             *
+   _____ __        *       _       __      __       __  
+  / ___// /_____ ______   | |     / /___ _/ /______/ /_  *
+  \__ \/ __/ __ `/ ___/   | | /| / / __ `/ __/ ___/ __ \
+ ___/ / /_/ /_/ / /   *   | |/ |/ / /_/ / /_/ /__/ / / / *
+/____/\__/\__,_/_/        |__/|__/\__,_/\__/\___/_/ /_/ 
+                                                                                                                                                                 
+  /\   File: VirtualStarPetView.mc              *                         
+  \/   Contains: Most Important Code     /\
+       Created for Garmin Venu 2 Series  \/           *
+       Author : Sarah Bass                        
+*/
+
+/*-------------------------------------------------------------
+  _                     _      
+ (_)_ __  _ __  ___ _ _| |_ ___
+ | | '  \| '_ \/ _ \ '_|  _(_-<
+ |_|_|_|_| .__/\___/_|  \__/__/
+         |_|                   
+----------------------------------------------------------------*/
 import Toybox.Application;
 import Toybox.Graphics;
 import Toybox.Lang;
@@ -20,107 +40,115 @@ using Toybox.Position;
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
-
+//--------------------------------------------------//
+/*            
+  Program Outline:
+   Class{ 
+      Initialize Global Variables
+      Initialize Bitmaps : function initialize()
+      Initialize Layout : function onLayout()
+      Update Scene : function onUpdate()
+      Additional Functions :
+         Moon phase
+         Heart Rate
+         Zodiac Sign
+         Void Garmin Functions 
+    }    
+*/
+//---------------------------------------------------//
 class VirtualPetDogView extends Ui.WatchFace {
+var mySettings = System.getDeviceSettings();
+var star;  
+var egg;
 var sensorIter = getIterator();
 var moon1;
 var rightbar;
-var dog0;
- var venus2X = LAYOUT_HALIGN_RIGHT;
-    var venus2Y = LAYOUT_VALIGN_CENTER;
-    var venus2XL = 20;
-    var venus2XM = 35;
-    var venumovey =  116;
-    var venus2YR = 248;
-    var venus2YS = 78;  
-    function initialize() {
-        WatchFace.initialize();
-        View.initialize();
-        
-        var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+const venus2X = LAYOUT_HALIGN_CENTER;
+const venus2Y = LAYOUT_VALIGN_CENTER;
+const venus2XL = mySettings.screenWidth*0.1;
+const venus2YS =  mySettings.screenHeight *0.22;
+const venus2XR =  mySettings.screenWidth *0.5;
+/*
+  _      _ _   _      _ _        
+ (_)_ _ (_) |_(_)__ _| (_)______ 
+ | | ' \| |  _| / _` | | |_ / -_)
+ |_|_||_|_|\__|_\__,_|_|_/__\___|
+                                 
+*/
 
-  // 0 => New Moon
-  // 1 => Waxing Crescent Moon
-  // 2 => Quarter Moon
-  // 3 => Waxing Gibbous Moon
-  // 4 => Full Moon
-  // 5 => Waning Gibbous Moon
-  // 6 => Last Quarter Moon
-  // 7 => Waning Crescent Moon
-  var moonnumber = getMoonPhase(today.year, today.month, today.day);
-  // var moonnumber = getMoonPhase(today.year, today.month, today.day);
-rightbar = new WatchUi.Bitmap({
+    function initialize() {
+      WatchFace.initialize();
+      View.initialize();
+        
+      var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+
+      var moonnumber = getMoonPhase(today.year, ((today.month)-1), today.day);
+     System.println(((today.month)-1));
+     /*
+     0 => New Moon
+     1 => Waxing Crescent Moon
+     2 => Quarter Moon
+     3 => Waxing Gibbous Moon
+     4 => Full Moon
+     5 => Waning Gibbous Moon
+     6 => Last Quarter Moon
+     7 => Waning Crescent Moon
+     */
+        var moonArray= [
+          (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.newmoon,//0
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.waxcres,//1
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.firstquar,//2
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+                (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.waxgib,//3
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+                (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.full,//4
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+                (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.wangib,//5
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+            (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.thirdquar,//6
+            :locX=> venus2XL,
+            :locY=> venus2Y
+        })),
+           (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.wancres,//7
+            :locX=> venus2XL,
+            :locY=> venus2Y,
+        })),
+        ];
+        
+        
+        moon1 = moonArray[moonnumber];
+        rightbar = new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.rightbar,
             :locX=> venus2X,
             :locY=> venus2Y
         });
-
-
-  
-  //Moon Bitmpas
-  switch (moonnumber){
-           case 0:  
-            moon1 = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.newmoon,
-            :locX=> venus2XL,
-            :locY=> venus2Y
+        star = new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.star,
+            :locX=> venus2XR,
+            :locY=> venus2YS
         });
-        break;
-            case 1:  
-            moon1 = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.waxcres,
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        }); 
-           case 2:  
-            moon1 = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.firstquar,
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        });
-        break;
-           case 3:  
-            moon1 = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.waxgib,
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        });
-        break;
-            case 4:  
-            moon1 = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.full,
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        });
-        break;
-           case 5:  
-            moon1 = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.wangib,
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        });
-        break;
-           case 6:  
-            moon1 = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.thirdquar,
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        });
-        break;
-           case 7:  
-            moon1 = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.wancres,
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        });
-        break;
-        default:  
-            moon1 = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.full,
-            :locX=> venus2XL,
-            :locY=> venus2Y
-        });}
-
     }
 /*
   _                    _   
@@ -129,7 +157,7 @@ rightbar = new WatchUi.Bitmap({
  |_\__,_|\_, \___/\_,_|\__|
          |__/              
 */
-    // Load your resources here
+   
     function onLayout(dc) as Void {
         setLayout(Rez.Layouts.WatchFace(dc));
         
@@ -145,7 +173,6 @@ rightbar = new WatchUi.Bitmap({
  | || | '_ \/ _` / _` |  _/ -_) \ V / / -_) V  V /
   \_,_| .__/\__,_\__,_|\__\___|  \_/|_\___|\_/\_/ 
       |_|                                         
-   All Strings and Images are Drawn and Called here
 */    
    
     function onUpdate(dc) as Void {
@@ -156,8 +183,8 @@ rightbar = new WatchUi.Bitmap({
   \_/\__,_|_| |_\__,_|_.__/_\___/__/
                                     
 */
-        // Variables for Data-------------------------------------------
-       var goal = 5000; 
+        
+       
        var profile = UserProfile.getProfile();
         var timeFormat = "$1$:$2$";
         var clockTime = System.getClockTime();
@@ -177,23 +204,12 @@ rightbar = new WatchUi.Bitmap({
     
     var timeString = Lang.format(timeFormat, [hours, clockTime.min.format("%02d")]);
     var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-    var dateString = Lang.format(
-    "$1$ $2$ $3$",
-    [
-        today.month,
-        today.day,
-        today.year
-    ] 
-    );
+    var monthArray = ["Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as Array<String>;
+    var weekdayArray = ["Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as Array<String>;
+    var chinesehoroscope = ["r", "q", "j", "s", "h", "K", "k", "m", "d", "o","p","L"] as Array<String>; 
     var mySettings = System.getDeviceSettings();
     var myStats = System.getSystemStats();
-    var birthEntry =profile.birthYear;
-    var phonestatus = mySettings.phoneConnected;
     var info = ActivityMonitor.getInfo();
-    var batterycharging =  myStats.charging;
-    var battery = Lang.format("$1$",[((myStats.battery)).format("%2d")]);
-    var steps = (info.steps);
-    var calories = info.calories;
     var heart = "";
     if (seconds%2 == 0){if (sensorIter != null) {
      heart =(sensorIter.next().data);
@@ -250,9 +266,8 @@ rightbar = new WatchUi.Bitmap({
 
     
     var TempMetric = System.getDeviceSettings().temperatureUnits;
-
     var TEMP = Toybox.Weather.getCurrentConditions().feelsLikeTemperature;
-    var FC = "D";
+    var FC;
     var cond = Toybox.Weather.getCurrentConditions().condition;
 
     if (TempMetric == System.UNIT_METRIC){
@@ -262,13 +277,8 @@ rightbar = new WatchUi.Bitmap({
     TEMP = ((((((Toybox.Weather.getCurrentConditions().feelsLikeTemperature).toDouble())*9)/5)+32).toNumber()); 
     FC = "A";   
     }
-    var horoscopeYear = getChineseYear(today.year);
-    var horoscopeBirth =getChineseYear(birthEntry);
-    var monthZodiac = getHoroscope(today.month, today.day);
-        
-    // Variables of text From Layout-------------------------------------------
+
         var timeText = View.findDrawableById("TimeLabel") as Text;
-        
         var dateText = View.findDrawableById("DateLabel") as Text;
         var batteryText = View.findDrawableById("batteryLabel") as Text;
         var heartText = View.findDrawableById("heartLabel") as Text;
@@ -283,44 +293,48 @@ rightbar = new WatchUi.Bitmap({
         var connectTextP = View.findDrawableById("connectLabelP") as Text;
         var connectTextB = View.findDrawableById("connectLabelB") as Text;
       
-    // Variables for Data END-------------------------------------------
+    
 /*
           _     _           _   
   ___ ___| |_  | |_ _____ _| |_ 
  (_-</ -_)  _| |  _/ -_) \ /  _|
  /__/\___|\__|  \__\___/_\_\\__|
-                                
-Set Text Values from Data Variables 
 */
-//---------------------------TEXT---------------------------------------------
+
 
         sunriseText.setText(sunriseHour + ":" + sunrise.min.format("%02u")+"AM");
         sunsetText.setText(sunsetHour + ":" + sunset.min.format("%02u")+"PM");
         temperatureText.setText(weather(cond)+TEMP+FC);
         timeText.setText(timeString+AMPM );
-        dateText.setText(dateString);
-        batteryText.setText(battery + "%"+ " =  ");
+        dateText.setText(weekdayArray[today.day_of_week]+" , "+ monthArray[today.month]+" "+ today.day +" " +today.year);
+        batteryText.setText(Lang.format("$1$",[((myStats.battery)).format("%2d")]) + "%"+ " =  ");
         heartText.setText(heart+" +  ");
-        stepText.setText(steps+" ^  ");
-        calorieText.setText(calories+" ~  ");
+        stepText.setText(info.steps+" ^  ");
+        calorieText.setText(info.calories+" ~  ");
         sunriseTextSU.setText("l");
         sunsetTextSD.setText("n");
-        horoscopeText.setText(horoscopeYear + ""+ horoscopeBirth + "" + monthZodiac);
+        horoscopeText.setText(chinesehoroscope[((((today.year).toNumber())%12).toNumber())] + ""+ chinesehoroscope[((((profile.birthYear).toNumber())%12).toNumber())] + "" + getHoroscope(today.month, today.day));
         connectTextP.setText("  #  ");
         connectTextB.setText("  @  ");
           
-    if (phonestatus == true){connectTextP.setColor(0x48FF35);}
+    if (mySettings.phoneConnected == true){connectTextP.setColor(0x48FF35);}
     else{connectTextP.setColor(0xEF1EB8);}
-    if (batterycharging == true){connectTextB.setColor(0x48FF35);}
+    if (myStats.charging == true){connectTextB.setColor(0x48FF35);}
     else{connectTextB.setColor(0xEF1EB8);}
     
-        
-       //---------------------------TEXT--------------------------------------------- 
+/*
+  _    _ _                   
+ | |__(_) |_ _ __  __ _ _ __ 
+ | '_ \ |  _| '  \/ _` | '_ \
+ |_.__/_|\__|_|_|_\__,_| .__/
+                       |_|   
+*/        
+       
       
         View.onUpdate(dc);
         moon1.draw(dc);
         rightbar.draw(dc);
-        
+        star.draw(dc);
         /*
               _                 _      _       
   ___ _ _  __| |  _  _ _ __  __| |__ _| |_ ___ 
@@ -345,102 +359,46 @@ function getIterator() {
     }
     return null;
 }
-  /*
-     _    _                    _                                     
-  __| |_ (_)_ _  ___ ___ ___  | |_  ___ _ _ ___ ___ __ ___ _ __  ___ 
- / _| ' \| | ' \/ -_|_-</ -_) | ' \/ _ \ '_/ _ (_-</ _/ _ \ '_ \/ -_)
- \__|_||_|_|_||_\___/__/\___| |_||_\___/_| \___/__/\__\___/ .__/\___|
-                                                          |_|        
-  */  
-
-//Takes in Year % 12 and Gives A Rough Chinese Horoscope
-//Not Totally Accurate if Month falls in January or February
-
-
-function getChineseYear(year){
-    var value = ((((year).toNumber())%12).toNumber());
-        switch(value){
-            case 0:
-                return "r";//"mon";
-                  //break;
-            case 1:
-                return "q";//"roo";
-                //break;  
-            case 2:
-                return "j";//"dog";
-                //break;  
-            case 3:
-                return "s";//"pig";
-                //break;  
-            case 4:
-                return "h";//"rat";
-                //break;  
-            case 5:
-                return "K";//"ox";
-                //break;  
-            case 6:
-                return "k";//"tig";
-                //break;            
-            case 7:
-                return "m";//"rab";
-                //break;
-            case 8:
-                return "d";//"dra";
-                //break;
-            case 9:
-                return "o";//"sna";
-                //break;
-            case 10:
-                return "p";//"hor";
-                //break;
-            case 11:
-                return "L";//"goa";
-                //break;                         
-            default:
-            return "d";
-            }
-    }
+  
 /*
   __  __                 ___ _                 
  |  \/  |___  ___ _ _   | _ \ |_  __ _ ___ ___ 
  | |\/| / _ \/ _ \ ' \  |  _/ ' \/ _` (_-</ -_)
  |_|  |_\___/\___/_||_| |_| |_||_\__,_/__/\___|
- This is based on a Farmers Almanac -
- Which Moonphases are 3 Days Each instead of Modern 1 Day
  
 */
 function getMoonPhase(year, month, day) {
 
-      var c = 0;
-      var e = 0;
-      var jd = 0;
-      var b = 0;
+      var c=0;
+      var e=0;
+      var jd=0;
+      var b=0;
 
       if (month < 3) {
         year--;
         month += 12;
       }
 
-      ++month;
+      ++month; 
 
-      c = 365.25 * year;
+      c = 365.2422 * year;
 
-      e = 30.6 * month;
+      e = 30.436875 * month;
 
-      jd = c + e + day - 694039.09; //jd is total days elapsed
+      jd = c + e + day - 694039.09; 
 
-      jd /= 29.5305882; //divide by the moon cycle
+      jd /= 29.5305882; 
 
-      b = (jd).toNumber(); //int(jd) -> b, take integer part of jd
+      b = (jd).toNumber(); 
 
-      jd -= b; //subtract integer part to leave fractional part of original jd
+      jd -= b; 
 
-      b = Math.round(jd * 8); //scale fraction from 0-8 and round
+      b = Math.round(jd * 8); 
 
       if (b >= 8) {
-        b = 0; //0 and 8 are the same so turn 8 into 0
+        b = 0; 
       }
-     //Return a Monkey C Number
+     
       return (b).toNumber();
     }
 /*
@@ -525,7 +483,7 @@ function getHoroscope(month, day) {
         return "w";//"Ari";
       }
     }
-        //cond is condition number
+       
 function weather(cond) {
   if (cond == 0 || cond == 40){return "b";}//sun
   else if (cond == 50 || cond == 49 ||cond == 47||cond == 45||cond == 44||cond == 42||cond == 31||cond == 27||cond == 26||cond == 25||cond == 24||cond == 21||cond == 18||cond == 15||cond == 14||cond == 13||cond == 11||cond == 3){return "a";}//rain
@@ -542,17 +500,13 @@ function weather(cond) {
   \___\__,_|_| |_|_|_|_|_||_|   \_/\___/_\__,_| 
                                                 
 */
-    // Called when this View is removed from the screen. Save the
-    // state of this View here. This includes freeing resources from
-    // memory.
+
     function onHide() as Void {
     }
 
-    // The user has just looked at their watch. Timers and animations may be started here.
     function onExitSleep() as Void {
     }
 
-    // Terminate any active timers and prepare for slow updates.
     function onEnterSleep() as Void {
     }
 

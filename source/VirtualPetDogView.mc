@@ -62,7 +62,6 @@ var sensorIter = getIterator();
 const venus2X = LAYOUT_HALIGN_CENTER;
 const venus2Y = 155;
 const venus2XL = 30;
-const venus2YS =  mySettings.screenHeight *0.22;
 const venus2XR =  mySettings.screenWidth *0.5;
 /*
   _      _ _   _      _ _        
@@ -195,10 +194,13 @@ const venus2XR =  mySettings.screenWidth *0.5;
         var temperatureText = View.findDrawableById("tempLabel") as Text;
         var connectTextP = View.findDrawableById("connectLabelP") as Text;
         var connectTextB = View.findDrawableById("connectLabelB") as Text;
-       var star = starPhase(info.steps);
-       var mouth = mouthPhase(clockTime.min, clockTime.sec);
-       var eyes = eyesPhase(clockTime.min); 
-       var goal = goalPhase(info.steps); 
+        var venus2YS;
+        if (clockTime.sec%2==0){venus2YS=(mySettings.screenHeight *0.22)+2;}
+        else{venus2YS=mySettings.screenHeight *0.22;} 
+       var star = starPhase(info.steps,venus2YS);
+       var mouth = mouthPhase(clockTime.min, clockTime.sec,venus2YS);
+       var eyes = eyesPhase(clockTime.min,venus2YS); 
+       var goal = goalPhase(info.steps,venus2YS); 
        var moonnumber = getMoonPhase(today.year, ((today.month)-1), today.day);  
        var moon1 = moonArrFun(moonnumber);
       /* var rightbar = new WatchUi.Bitmap({
@@ -466,7 +468,7 @@ function weather(cond) {
   else {return "c";}
 }
 
- function starPhase(steps){
+ function starPhase(steps,venus2YS){
   if (steps > 1000) {
     return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.star,
@@ -480,7 +482,7 @@ function weather(cond) {
             :locY=> venus2YS
         });}
  }
- function eyesPhase(minutes){
+ function eyesPhase(minutes,venus2YS){
   if (minutes%2 == 0){
  return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.eyes,
@@ -495,16 +497,85 @@ function weather(cond) {
         }
 
 
- function mouthPhase(minutes, seconds){         
-            
+ function mouthPhase(minutes, seconds,venus2YS){         
+    if (minutes%4 == 0){
+      if (seconds%2==0){
     return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.mouth1,
             :locX=> venus2XR,
             :locY=> venus2YS
         });
+    }
+    else {
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.mouth3,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });
+    }  }      
+    if (minutes%4 == 1){
+      if (seconds%2==0){
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.mouth1,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });
+    }
+    else {
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.mouth2,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });
+    }  }
+     if (minutes%4 == 2){
+      if (seconds%2==0){
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.mouth0,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });
+    }
+    else {
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.mouth3,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });
+    } }
+        if (minutes%4 == 3){
+      if (seconds%2==0){
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.mouth2,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });
+    }
+    else {
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.mouth1,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });
+    }  }   
+        else{
+      if (seconds%2==0){
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.mouth0,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });
+    }
+    else {
+    return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.mouth1,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        });
+    }}   
 }
 
-function goalPhase(steps){
+function goalPhase(steps,venus2YS){
     var goal = Math.round(steps/1000).toNumber();
     /*
     blank-egg - blank

@@ -203,18 +203,6 @@ const venus2XR =  mySettings.screenWidth *0.5;
        var goal = goalPhase(info.steps,venus2YS); 
        var moonnumber = getMoonPhase(today.year, ((today.month)-1), today.day);  
        var moon1 = moonArrFun(moonnumber);
-      /* var rightbar = new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.rightbar,
-            :locX=> LAYOUT_HALIGN_RIGHT,
-            :locY=> LAYOUT_VALIGN_START,
-        });*/
-/*
-          _     _           _   
-  ___ ___| |_  | |_ _____ _| |_ 
- (_-</ -_)  _| |  _/ -_) \ /  _|
- /__/\___|\__|  \__\___/_\_\\__|
-*/
-
 
         sunriseText.setText(sunriseHour + ":" + sunrise.min.format("%02u")+"AM");
         sunsetText.setText(sunsetHour + ":" + sunset.min.format("%02u")+"PM");
@@ -247,26 +235,32 @@ const venus2XR =  mySettings.screenWidth *0.5;
       
         View.onUpdate(dc);
         moon1.draw(dc);
-        //rightbar.draw(dc);
         star.draw(dc);
         eyes.draw(dc);
         mouth.draw(dc);
         goal.draw(dc);
 
-var screenWidth = dc.getWidth();
-var screenHeight = dc.getHeight();
-var centerX = screenWidth / 2;
-var centerY = screenHeight / 2;
+
+var centerX = (dc.getWidth()) / 2;
+var centerY = (dc.getHeight()) / 2;
+
 dc.setPenWidth(30);
+
+dc.setColor(0x272727, Graphics.COLOR_TRANSPARENT);
+dc.drawCircle(centerX, centerY, centerX);
 dc.setColor(0x48FF35, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 90, 45);
+dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 90, 47);
 dc.setColor(0xFFFF35, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 45, 0);
+dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 45, 2);
 dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 0, 315);
+dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 0, 317);
 dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
 dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 315, 270);
-//dc.drawCircle(centerX, centerY, centerX);
+dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 315, 270);
+dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 270, 268 - (info.steps/56));
+
         /*
               _                 _      _       
   ___ _ _  __| |  _  _ _ __  __| |__ _| |_ ___ 

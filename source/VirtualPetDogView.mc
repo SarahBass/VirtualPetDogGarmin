@@ -197,10 +197,10 @@ const venus2XR =  mySettings.screenWidth *0.5;
         var venus2YS;
         if (clockTime.sec%2==0){venus2YS=(mySettings.screenHeight *0.22)+2;}
         else{venus2YS=mySettings.screenHeight *0.22;} 
-       var star = starPhase(info.steps,venus2YS);
+       var star = starPhase(2000,venus2YS);
        var mouth = mouthPhase(clockTime.min, clockTime.sec,venus2YS);
        var eyes = eyesPhase(clockTime.min,venus2YS); 
-       var goal = goalPhase(info.steps,venus2YS); 
+       var goal = goalPhase(6000,venus2YS); 
        var moonnumber = getMoonPhase(today.year, ((today.month)-1), today.day);  
        var moon1 = moonArrFun(moonnumber);
 
@@ -244,8 +244,8 @@ const venus2XR =  mySettings.screenWidth *0.5;
 var centerX = (dc.getWidth()) / 2;
 var centerY = (dc.getHeight()) / 2;
 
+if (mySettings.screenShape == 1){
 dc.setPenWidth(30);
-
 dc.setColor(0x272727, Graphics.COLOR_TRANSPARENT);
 dc.drawCircle(centerX, centerY, centerX);
 dc.setColor(0x48FF35, Graphics.COLOR_TRANSPARENT);
@@ -256,11 +256,22 @@ dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);
 dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 0, 317);
 dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
 dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 315, 270);
-dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 315, 270);
 dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
 dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 268, 266 - (info.steps/56));
-
+}else 
+{
+  dc.setPenWidth(15);
+  dc.setColor(0x272727, Graphics.COLOR_TRANSPARENT);
+  dc.drawRectangle(0, 0, dc.getWidth(), dc.getHeight());
+  dc.setColor(0x48FF35, Graphics.COLOR_TRANSPARENT);
+  dc.drawLine(0, 0, dc.getWidth(), 0);
+  dc.setColor(0xFFFF35, Graphics.COLOR_TRANSPARENT);
+  dc.drawLine(dc.getWidth(), dc.getHeight(), 0, dc.getHeight());
+  dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);
+  dc.drawLine(0, 0, 0, dc.getHeight());
+  dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
+  dc.drawLine(dc.getWidth(), 0, dc.getWidth(), dc.getHeight());
+}
         /*
               _                 _      _       
   ___ _ _  __| |  _  _ _ __  __| |__ _| |_ ___ 
@@ -594,7 +605,7 @@ function goalPhase(steps,venus2YS){
     high school 4000-5000 -4
     graduate 5000-6000 -5
      */
-     if (goal > 5) {goal=5;}
+     if (goal > 6) {goal=6;}
     var goalArray = [
      new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.blank,
@@ -623,6 +634,11 @@ function goalPhase(steps,venus2YS){
         }),
                 new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.goal5,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        }),
+                        new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.blank,
             :locX=> venus2XR,
             :locY=> venus2YS
         }),

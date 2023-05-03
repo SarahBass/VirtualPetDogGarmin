@@ -9,4 +9,18 @@
 <bitmap id="waxgib" filename="waxgib.png"  x = "center" dithering="none"/>
 <bitmap id="wangib" filename="wangib.png" x = "center" dithering="none"/>
 <bitmap id="rightbar" filename="rightbar.png" x = "center" dithering="none"/>
+<bitmap id="star" filename="star150.png" x = "center" dithering="none"/>
+<bitmap id="egg" filename="egg150.png" x = "center" dithering="none"/>
+<bitmap id="eyes" filename="eyes0.png" x = "center" dithering="none"/>
+<bitmap id="mouth1" filename="mouth0.png" x = "center" dithering="none"/>
+<bitmap id="eyes1" filename="eyes1.png" x = "center" dithering="none"/>
+<bitmap id="mouth2" filename="mouth1.png" x = "center" dithering="none"/>
+<bitmap id="mouth3" filename="mouth2.png" x = "center" dithering="none"/>
+<bitmap id="mouth4" filename="mouth3.png" x = "center" dithering="none"/>
+<bitmap id="goal1" filename="goal1.png" x = "center" dithering="none"/>
+<bitmap id="goal2" filename="goal2.png" x = "center" dithering="none"/>
+<bitmap id="goal3" filename="goal3.png" x = "center" dithering="none"/>
+<bitmap id="goal4" filename="goal4.png" x = "center" dithering="none"/>
+<bitmap id="goal5" filename="goal5.png" x = "center" dithering="none"/>
 </drawables>
+

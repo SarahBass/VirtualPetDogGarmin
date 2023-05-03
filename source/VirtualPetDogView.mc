@@ -31,6 +31,7 @@ import Toybox.Weather;
 import Toybox.Time;
 import Toybox.Position;
 using Toybox.Time;
+using Toybox.Math;
 using Toybox.Time.Gregorian;
 using Toybox.System; 
 using Toybox.UserProfile;
@@ -320,9 +321,9 @@ function getMoonPhase(year, month, day) {
 
       ++month; 
 
-      c = 365.2422 * year;
+      c = 365.25 * year;
 
-      e = 30.436875 * month;
+      e = 30.6 * month;
 
       jd = c + e + day - 694039.09; 
 

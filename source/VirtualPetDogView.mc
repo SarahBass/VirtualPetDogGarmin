@@ -467,7 +467,7 @@ function weather(cond) {
 }
 
  function starPhase(steps){
-  if (steps > 5000/5) {
+  if (steps > 1000) {
     return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.star,
             :locX=> venus2XR,
@@ -505,12 +505,53 @@ function weather(cond) {
 }
 
 function goalPhase(steps){
-    return new WatchUi.Bitmap({
+    var goal = Math.round(steps/1000).toNumber();
+    /*
+    blank-egg - blank
+    baby - 1000-2000 - 1
+    elementary - 2000-3000 -2
+    middle school 3000-4000 -3
+    high school 4000-5000 -4
+    graduate 5000-6000 -5
+     */
+     if (goal > 5) {goal=5;}
+    var goalArray = [
+     new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.blank,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        }),
+        new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.goal1,
             :locX=> venus2XR,
             :locY=> venus2YS
-        });
-}
+        }),
+            new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.goal2,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        }),
+            new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.goal3,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        }),
+            new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.goal4,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        }),
+                new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.goal5,
+            :locX=> venus2XR,
+            :locY=> venus2YS
+        }),
+    ];
+    return goalArray[goal];
+        
+        }
+    
+
 /*
    ___                _       __   __   _    _  
   / __|__ _ _ _ _ __ (_)_ _   \ \ / /__(_)__| | 

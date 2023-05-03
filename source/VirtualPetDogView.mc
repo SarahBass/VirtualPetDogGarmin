@@ -50,8 +50,10 @@ using Toybox.Application as App;
       Update Scene : function onUpdate()
       Additional Functions :
          Moon phase
+         Weather
          Heart Rate
          Zodiac Sign
+         Bitmap Functions
          Void Garmin Functions 
     }    
 */

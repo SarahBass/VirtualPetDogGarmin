@@ -259,7 +259,7 @@ dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 315, 270);
 dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
 dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 315, 270);
 dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 270, 268 - (info.steps/56));
+dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 268, 266 - (info.steps/56));
 
         /*
               _                 _      _       

@@ -252,6 +252,21 @@ const venus2XR =  mySettings.screenWidth *0.5;
         eyes.draw(dc);
         mouth.draw(dc);
         goal.draw(dc);
+
+var screenWidth = dc.getWidth();
+var screenHeight = dc.getHeight();
+var centerX = screenWidth / 2;
+var centerY = screenHeight / 2;
+dc.setPenWidth(30);
+dc.setColor(0x48FF35, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 90, 45);
+dc.setColor(0xFFFF35, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 45, 0);
+dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 0, 315);
+dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 315, 270);
+//dc.drawCircle(centerX, centerY, centerX);
         /*
               _                 _      _       
   ___ _ _  __| |  _  _ _ __  __| |__ _| |_ ___ 

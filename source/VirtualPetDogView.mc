@@ -60,8 +60,8 @@ class VirtualPetDogView extends Ui.WatchFace {
 var mySettings = System.getDeviceSettings();
 var sensorIter = getIterator();
 const venus2X = LAYOUT_HALIGN_CENTER;
-const venus2Y = 155;
-const venus2XL = 30;
+const venus2Y = 145;
+const venus2XL = 50;
 const venus2XR =  mySettings.screenWidth *0.5;
 /*
   _      _ _   _      _ _        

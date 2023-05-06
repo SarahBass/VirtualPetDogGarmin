@@ -41,6 +41,8 @@ using Toybox.Position;
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.Application as App;
+
+ 	
 //--------------------------------------------------//
 /*            
   Program Outline:
@@ -119,11 +121,11 @@ const venus2XR =  mySettings.screenWidth *0.5;
     if (clockTime.sec%2 == 0){if (sensorIter != null) {
      heart =(sensorIter.next().data);
     }else { heart = "--";}}else {heart = "--";}
- 	
-    var timeStamp= new Time.Moment(Time.today().value());
-         
-	var positions = Activity.Info.currentLocation;
-        if (positions == null){
+
+  var timeStamp= new Time.Moment(Time.today().value());
+  
+  var positions;
+        if (Toybox.Weather.getCurrentConditions().observationLocationPosition == null){
         positions=new Position.Location( 
     {
         :latitude => 33.684566,
@@ -131,33 +133,43 @@ const venus2XR =  mySettings.screenWidth *0.5;
         :format => :degrees
     }
     );
+    }else{
+      positions= Toybox.Weather.getCurrentConditions().observationLocationPosition;
     }
-    var sunrise = Time.Gregorian.info(Toybox.Weather.getSunrise(positions, timeStamp), Time.FORMAT_MEDIUM);
+    
+  
+
+  var sunrise = Time.Gregorian.info(Toybox.Weather.getSunrise(positions, timeStamp), Time.FORMAT_MEDIUM);
         
-	var sunriseHour = sunrise.hour;
+	var sunriseHour;
+  if (Toybox.Weather.getSunrise(positions, timeStamp) == null){sunriseHour = 6;}
+    else {sunriseHour= sunrise.hour;}
          if (!System.getDeviceSettings().is24Hour) {
-            if (sunrise.hour > 12) {
-                sunriseHour = (hours - 12).abs();
+            if (sunriseHour > 12) {
+                sunriseHour = (sunriseHour - 12).abs();
             }
         } else {
             if (getApp().getProperty("UseMilitaryFormat")) {
                 timeFormat = "$1$$2$";
-                sunriseHour = sunrise.hour.format("%02d");
+                sunriseHour = sunriseHour.format("%02d");
             }
         }
         
-
-    var sunset = Time.Gregorian.info(Toybox.Weather.getSunset(positions, timeStamp), Time.FORMAT_MEDIUM);
+    var sunset;
+    var sunsetHour;
+    sunset = Time.Gregorian.info(Toybox.Weather.getSunset(positions, timeStamp), Time.FORMAT_MEDIUM);
+    if (Toybox.Weather.getSunset(positions, timeStamp) == null){sunsetHour = 6;}
+    else {sunsetHour= sunset.hour ;}
         
-	var sunsetHour = sunset.hour;
+	
          if (!System.getDeviceSettings().is24Hour) {
-            if (sunset.hour > 12) {
-                sunsetHour = (hours - 12).abs();
+            if (sunsetHour > 12) {
+                sunsetHour = (sunsetHour - 12).abs();
             }
         } else {
             if (getApp().getProperty("UseMilitaryFormat")) {
                 timeFormat = "$1$$2$";
-                sunsetHour = sunset.hour.format("%02d");
+                sunsetHour = sunsetHour.format("%02d");
             }
         }
 
@@ -171,15 +183,18 @@ const venus2XR =  mySettings.screenWidth *0.5;
 
     
     var TempMetric = System.getDeviceSettings().temperatureUnits;
-    var TEMP = Toybox.Weather.getCurrentConditions().feelsLikeTemperature;
+    var TEMP;
+     if(Toybox.Weather.getCurrentConditions() != null){ TEMP= Toybox.Weather.getCurrentConditions().feelsLikeTemperature;}
+     else {TEMP = 61;}
     var FC;
-    var cond = Toybox.Weather.getCurrentConditions().condition;
+    var cond;
+    if (Toybox.Weather.getCurrentConditions() != null){ cond = Toybox.Weather.getCurrentConditions().condition;}
+    else{cond = 0;}
 
-    if (TempMetric == System.UNIT_METRIC){
-    TEMP = Toybox.Weather.getCurrentConditions().feelsLikeTemperature;
+    if (TempMetric == System.UNIT_METRIC){  
     FC = "D";
     }else{
-    TEMP = ((((((Toybox.Weather.getCurrentConditions().feelsLikeTemperature).toDouble())*9)/5)+32).toNumber()); 
+    TEMP = (((((TEMP)*9)/5)+32).toNumber()); 
     FC = "A";   
     }
 
@@ -218,7 +233,7 @@ const venus2XR =  mySettings.screenWidth *0.5;
         calorieText.setText(info.calories+" ~  ");
         sunriseTextSU.setText("l");
         sunsetTextSD.setText("n");
-        horoscopeText.setText(chinesehoroscope[((((today.year).toNumber())%12).toNumber())] + ""+ chinesehoroscope[((((profile.birthYear).toNumber())%12).toNumber())] + "" + getHoroscope(today.month, today.day));
+        horoscopeText.setText(chinesehoroscope[((((today.year).toNumber())%12).toNumber())] + ""+ chinesehoroscope[((((profile.birthYear).toNumber())%12).toNumber())] + "" + getHoroscope((today.month-1), today.day));
         connectTextP.setText("  #  ");
         connectTextB.setText("  @  ");
           

@@ -94,35 +94,34 @@ const venus2XR =  mySettings.screenWidth *0.5;
 */
         
 
-       var profile = UserProfile.getProfile();
+        var profile = UserProfile.getProfile();
         var timeFormat = "$1$:$2$";
         var clockTime = System.getClockTime();
+        var mySettings = System.getDeviceSettings();
+        var myStats = System.getSystemStats();
+        var info = ActivityMonitor.getInfo();
+        var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+        var timeStamp= new Time.Moment(Time.today().value());
         var hours = clockTime.hour;
         if (!System.getDeviceSettings().is24Hour) {
             if (hours > 12) {
                 hours = hours - 12;
             }
-        } else {
-            if (getApp().getProperty("UseMilitaryFormat")) {
-                timeFormat = "$1$$2$";
-                hours = hours.format("%02d");
-            }
+        } else {   
+                timeFormat = "$1$:$2$";
+                hours = hours.format("%02d");  
         }
     
     var timeString = Lang.format(timeFormat, [hours, clockTime.min.format("%02d")]);
-    var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
     var monthArray = ["Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as Array<String>;
     var weekdayArray = ["Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as Array<String>;
     var chinesehoroscope = ["r", "q", "j", "s", "h", "K", "k", "m", "d", "o","p","L"] as Array<String>; 
-    var mySettings = System.getDeviceSettings();
-    var myStats = System.getSystemStats();
-    var info = ActivityMonitor.getInfo();
     var heart = "";
     if (clockTime.sec%2 == 0){if (sensorIter != null) {
      heart =(sensorIter.next().data);
     }else { heart = "--";}}else {heart = "--";}
 
-  var timeStamp= new Time.Moment(Time.today().value());
+
   
   var positions;
         if (Toybox.Weather.getCurrentConditions().observationLocationPosition == null){
@@ -149,10 +148,9 @@ const venus2XR =  mySettings.screenWidth *0.5;
                 sunriseHour = (sunriseHour - 12).abs();
             }
         } else {
-            if (getApp().getProperty("UseMilitaryFormat")) {
-                timeFormat = "$1$$2$";
+           
+                timeFormat = "$1$:$2$";
                 sunriseHour = sunriseHour.format("%02d");
-            }
         }
         
     var sunset;
@@ -167,10 +165,9 @@ const venus2XR =  mySettings.screenWidth *0.5;
                 sunsetHour = (sunsetHour - 12).abs();
             }
         } else {
-            if (getApp().getProperty("UseMilitaryFormat")) {
-                timeFormat = "$1$$2$";
+            
+                timeFormat = "$1$:$2$";
                 sunsetHour = sunsetHour.format("%02d");
-            }
         }
 
     var AMPM = "";       

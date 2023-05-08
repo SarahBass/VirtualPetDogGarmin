@@ -137,6 +137,9 @@ class BlobbyPetView extends WatchUi.WatchFace {
         }else{}
         //Draw Top of Head
        
+       
+
+
         if ((today.day)%4 == 0){
         dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
         dc.drawEllipse(centerX, (centerY*1.25)*animate2/3, ((centerX)/6)*animate2*grow, (centerX/8)*animate2*grow);
@@ -169,6 +172,10 @@ class BlobbyPetView extends WatchUi.WatchFace {
         dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
         dc.fillEllipse(centerX, (centerY*1.25)*animate2/3, ((centerX)/6)*animate2*grow, (centerX/8)*animate2*grow);
         }
+
+
+
+
 
         //Draw Face
         dc.setPenWidth(5);
@@ -204,13 +211,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
         dc.fillEllipse((centerX*13)/20, ((centerY*13)*animate2)/20, centerX/15, centerX/30);
         dc.fillEllipse((centerX*26)/20, ((centerY*13)*animate2)/20, centerX/15, centerX/30);
         
-        //spots
-         dc.setColor(ColorArrayInner[today.day_of_week+2], Graphics.COLOR_TRANSPARENT);
-         dc.fillEllipse((centerX*23)/20, ((centerY*11)*animate2)/20, centerX/25, centerX/20);
-         dc.setColor(ColorArrayInner[today.day_of_week+3], Graphics.COLOR_TRANSPARENT);
-         dc.fillEllipse((centerX*22)/20, ((centerY*10)*animate2)/20, centerX/26, centerX/24);
-         dc.setColor(ColorArrayInner[today.day_of_week+4], Graphics.COLOR_TRANSPARENT);
-         dc.fillEllipse((centerX*24)/20, ((centerY*10)*animate2)/20, centerX/28, centerX/26);
+        
         //mouth
         if (today.min%3==0){
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
@@ -229,6 +230,14 @@ class BlobbyPetView extends WatchUi.WatchFace {
         dc.drawCircle((centerX*19)/20, (centerY*7)*animate2/10, (centerX/18)*animate);
         dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle((centerX*19)/20, (centerY*7)*animate2/10, (centerX/23)*animate);}
+
+        //spots
+         dc.setColor(ColorArrayInner[today.day_of_week+2], Graphics.COLOR_TRANSPARENT);
+         dc.fillEllipse((centerX), ((centerY*17)*animate2)/40, (centerX/25)*animate2*grow, (centerX/20)*animate2*grow);
+         dc.setColor(ColorArrayInner[today.day_of_week+3], Graphics.COLOR_TRANSPARENT);
+         dc.fillEllipse((centerX), ((centerY*15)*animate2)/40, (centerX/26)*animate2*grow, (centerX/24)*animate2*grow);
+         dc.setColor(ColorArrayInner[today.day_of_week+4], Graphics.COLOR_TRANSPARENT);
+         dc.fillEllipse((centerX*43)/40, ((centerY*16)*animate2)/40, (centerX/30)*animate2*grow, (centerX/26)*animate2*grow);
  
 if (mySettings.screenShape == 1){
 dc.setPenWidth(30);

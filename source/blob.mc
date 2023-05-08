@@ -40,7 +40,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
     function onUpdate(dc as Dc) as Void {
         
         var timeFormat = "$1$:$2$";
-        var profile = UserProfile.getProfile();
+       // var profile = UserProfile.getProfile();
        var mySettings = System.getDeviceSettings();
         var myStats = System.getSystemStats();
         var info = ActivityMonitor.getInfo();
@@ -61,15 +61,15 @@ class BlobbyPetView extends WatchUi.WatchFace {
         var weekdayArray = ["Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as Array<String>;
         var heart = "--";
          var monthArray = ["Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as Array<String>;
-            var AMPM = "";       
-    if (!System.getDeviceSettings().is24Hour) {
+         //   var AMPM = "";       
+    /*if (!System.getDeviceSettings().is24Hour) {
         if (clockTime.hour > 12) {
                 AMPM = "N";
             }else{
                 AMPM = "M";
-            }}
+            }}*/
         var TempMetric = System.getDeviceSettings().temperatureUnits;
-    var TEMP;
+         var TEMP;
      if(Toybox.Weather.getCurrentConditions() != null){ TEMP= Toybox.Weather.getCurrentConditions().feelsLikeTemperature;}
      else {TEMP = 61;}
     var FC;
@@ -85,7 +85,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
     }
         
         
-        var time = View.findDrawableById("TimeLabel") as Text;
+        var timeText = View.findDrawableById("TimeLabel") as Text;
         var dateText = View.findDrawableById("DateLabel") as Text;
         var batteryText = View.findDrawableById("batteryLabel") as Text;
         var heartText = View.findDrawableById("heartLabel") as Text;
@@ -93,16 +93,28 @@ class BlobbyPetView extends WatchUi.WatchFace {
         var calorieText = View.findDrawableById("caloriesLabel") as Text;
         var temperatureText = View.findDrawableById("tempLabel") as Text;
         var temperatureText1 = View.findDrawableById("tempLabel1") as Text;
-        time.setText(timeString+AMPM );
+        dateText.locY = (((System.getDeviceSettings().screenHeight)*23/30));
+        timeText.locY = (((System.getDeviceSettings().screenHeight)/30));
+        batteryText.locX = (((System.getDeviceSettings().screenWidth)/30));
+        heartText.locX = (((System.getDeviceSettings().screenWidth)*28/30));
+        stepText.locX = (((System.getDeviceSettings().screenWidth)*2/30));
+        stepText.locY = (((System.getDeviceSettings().screenHeight)*8/30));
+        calorieText.locX = (((System.getDeviceSettings().screenWidth)*27/30));
+        calorieText.locY = (((System.getDeviceSettings().screenHeight)*8/30));
+        temperatureText.locY = (((System.getDeviceSettings().screenHeight)*23/30));
+        temperatureText1.locY = (((System.getDeviceSettings().screenHeight)*23/30));
+        timeText.setText(timeString);
         dateText.setText(weekdayArray[today.day_of_week]+" , "+ monthArray[today.month]+" "+ today.day +" " +today.year);
-        batteryText.setText("      = " + Lang.format("$1$",[((myStats.battery)).format("%2d")]) + "%");
-        heartText.setText("           + "+heart);
-        stepText.setText(info.steps+" ^           ");
-        calorieText.setText(info.calories+" ~        ");
+        batteryText.setText(" = " + Lang.format("$1$",[((myStats.battery)).format("%2d")]) + "%");
+        heartText.setText(heart+" + ");
+        stepText.setText(" ^ "+info.steps);
+        calorieText.setText(info.calories+" ~ ");
         temperatureText.setText(weather(cond));
-        temperatureText1.setText("  "+TEMP+FC+"  ");
-        // Call the parent onUpdate function to redraw the layout
+        temperatureText1.setText(TEMP+FC);
+        
         View.onUpdate(dc);
+
+        
         dc.setPenWidth(10);
         var grow = 1;
         
@@ -241,7 +253,8 @@ class BlobbyPetView extends WatchUi.WatchFace {
  
 if (mySettings.screenShape == 1){
 dc.setPenWidth(30);
-dc.setColor(0x272727, Graphics.COLOR_TRANSPARENT);
+//0x555555 for 64 bit color and 16 bit color - only AMOLED can show 0x272727
+dc.setColor(0x555555, Graphics.COLOR_TRANSPARENT);
 dc.drawCircle(centerX, centerX, centerX);
 dc.setColor(0x48FF35, Graphics.COLOR_TRANSPARENT);
 dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 90, 47);

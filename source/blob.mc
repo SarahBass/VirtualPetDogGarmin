@@ -88,27 +88,38 @@ class BlobbyPetView extends WatchUi.WatchFace {
         dc.setPenWidth(10);
         var outercolor = 0x9AFF90;
         var innercolor = 0x48FF35;
+        var animate = 1;
+        if (today.sec%2 == 0){animate = 0.75;}else {animate =1;}
+        var animate2 = 1;
+        if (today.sec%2 == 0){animate2 = 0.95;}else {animate2 =1;}
         //Draw Baby 
         dc.setColor(outercolor , Graphics.COLOR_TRANSPARENT);
-        dc.drawEllipse(centerX, (centerY*3)/5, (centerX*1.25)/3, centerY/4);
+        dc.drawEllipse(centerX, (centerY*3)*animate2/5, (centerX*1.25)/3, centerY/4);
         dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
-        dc.fillEllipse(centerX, (centerY*3)/5, (centerX*1.25)/3, centerY/4);
+        dc.fillEllipse(centerX, (centerY*3)*animate2/5, (centerX*1.25)/3, centerY/4);
         dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
-        dc.drawEllipse(centerX, (centerY*1.25)/5, (centerX)/6, centerY/8);
+        dc.drawEllipse(centerX, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
         dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
-        dc.fillEllipse(centerX, (centerY*1.25)/5, (centerX)/6, centerY/8);
+        dc.fillEllipse(centerX, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
         
         //Draw Face
+
+        //eyes
         dc.setPenWidth(5);
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-        dc.drawArc((centerX*15)/20, (centerY*3)/5, centerX/13, Graphics.ARC_CLOCKWISE, 360, 180);
-        dc.drawArc((centerX*12)/10, (centerY*3)/5, centerX/13, Graphics.ARC_CLOCKWISE, 360, 180);
-        dc.drawCircle((centerX*19)/20, (centerY*7)/10, centerX/18);
-         dc.setColor(0x9AFF90, Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle((centerX*19)/20, (centerY*7)/10, centerX/23);
+        dc.drawArc((centerX*15)/20, ((centerY*3)*animate2/5), centerX/13, Graphics.ARC_CLOCKWISE, 360, 180);
+        dc.drawArc((centerX*12)/10, ((centerY*3)*animate2/5), centerX/13, Graphics.ARC_CLOCKWISE, 360, 180);
+        //cheeks
         dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);
-        dc.fillEllipse((centerX*13)/20, (centerY*7)/10, centerX/15, centerY/30);
-        dc.fillEllipse((centerX*26)/20, (centerY*7)/10, centerX/15, centerY/30);
+        dc.fillEllipse((centerX*13)/20, ((centerY*7)*animate2)/10, centerX/15, centerY/30);
+        dc.fillEllipse((centerX*26)/20, ((centerY*7)*animate2)/10, centerX/15, centerY/30);
+        //mouth
+    
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        dc.drawCircle((centerX*19)/20, (centerY*7)*animate2/10, (centerX/18)*animate);
+        dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle((centerX*19)/20, (centerY*7)*animate2/10, (centerX/23)*animate);
+ 
 if (mySettings.screenShape == 1){
 dc.setPenWidth(30);
 dc.setColor(0x272727, Graphics.COLOR_TRANSPARENT);

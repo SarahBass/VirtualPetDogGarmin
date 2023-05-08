@@ -98,7 +98,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
         batteryText.setText("      = " + Lang.format("$1$",[((myStats.battery)).format("%2d")]) + "%");
         heartText.setText("           + "+heart);
         stepText.setText(info.steps+" ^           ");
-        calorieText.setText(info.calories+" ~           ");
+        calorieText.setText(info.calories+" ~        ");
         temperatureText.setText(weather(cond));
         temperatureText1.setText("  "+TEMP+FC+"  ");
         // Call the parent onUpdate function to redraw the layout
@@ -111,7 +111,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
         //1000-2000 no head change
         //2000 + growth
         if (fakesteps>2000){grow = 1 + fakesteps/5000;}else{grow = 1;}
-        var ColorArrayInner = [Graphics.COLOR_WHITE,0x48FF35,0xFFFF35,0xEF1EB8,0x00F7EE,0x9AFF90,0xFFB2EB,0x9AFFFB ];
+        var ColorArrayInner = [Graphics.COLOR_WHITE,0x48FF35,0xFFFF35,0xEF1EB8,0x00F7EE,0x9AFF90,0xFFB2EB,0x9AFFFB,Graphics.COLOR_WHITE,0x48FF35,0xFFFF35,0x00F7EE,0x9AFF90,0xFFB2EB,0x9AFFFB ];
         var ColorArrayOuter = [0x48FF35, 0x9AFF90,Graphics.COLOR_WHITE,0xFFB2EB,0x9AFFFB,0x48FF35,0xEF1EB8,0x00F7EE ];
         var outercolor = ColorArrayOuter[today.day_of_week];
         var innercolor = ColorArrayInner[today.day_of_week];
@@ -180,10 +180,11 @@ class BlobbyPetView extends WatchUi.WatchFace {
         } else if (today.min%5==1){
         dc.drawArc((centerX*15)/20, ((centerY*13)*animate2/20), centerX/13, Graphics.ARC_CLOCKWISE, 180, 360);
         dc.drawArc((centerX*12)/10, ((centerY*13)*animate2/20), centerX/13, Graphics.ARC_CLOCKWISE, 180, 360);
+    
         } else if (today.min%5==2){
 
-        dc.drawLine((centerX*13)/20, ((centerY*3)*animate2/5), (centerX*16)/20, ((centerY*7)*animate2/10));
-        dc.drawLine((centerX*23)/20, ((centerY*7)*animate2/10), (centerX*26)/20, ((centerY*3)*animate2/5));
+        dc.drawLine((centerX*13)/20, ((centerY*3)*animate2/5), (centerX*16)/20, ((centerY*13)*animate2/20));
+        dc.drawLine((centerX*23)/20, ((centerY*13)*animate2/20), (centerX*26)/20, ((centerY*3)*animate2/5));
         } else if (today.min%5==3){
         dc.drawLine((centerX*14)/20, ((centerY*3)*animate2/5), (centerX*17)/20, ((centerY*3)*animate2/5));
         dc.drawLine((centerX*22)/20, ((centerY*3)*animate2/5), (centerX*25)/20, ((centerY*3)*animate2/5));
@@ -202,6 +203,14 @@ class BlobbyPetView extends WatchUi.WatchFace {
         dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);
         dc.fillEllipse((centerX*13)/20, ((centerY*13)*animate2)/20, centerX/15, centerX/30);
         dc.fillEllipse((centerX*26)/20, ((centerY*13)*animate2)/20, centerX/15, centerX/30);
+        
+        //spots
+         dc.setColor(ColorArrayInner[today.day_of_week+2], Graphics.COLOR_TRANSPARENT);
+         dc.fillEllipse((centerX*23)/20, ((centerY*11)*animate2)/20, centerX/25, centerX/20);
+         dc.setColor(ColorArrayInner[today.day_of_week+3], Graphics.COLOR_TRANSPARENT);
+         dc.fillEllipse((centerX*22)/20, ((centerY*10)*animate2)/20, centerX/26, centerX/24);
+         dc.setColor(ColorArrayInner[today.day_of_week+4], Graphics.COLOR_TRANSPARENT);
+         dc.fillEllipse((centerX*24)/20, ((centerY*10)*animate2)/20, centerX/28, centerX/26);
         //mouth
         if (today.min%3==0){
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);

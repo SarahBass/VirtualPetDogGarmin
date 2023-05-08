@@ -194,7 +194,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
         dc.fillCircle((centerX*19)/20, (centerY*7)*animate2/10, (centerX/23)*animate);}
         else if (today.min%3==1){
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-        dc.drawArc((centerX)/20, (centerY*7)*animate2/10, (centerX/18), Graphics.ARC_CLOCKWISE, 360, 180);
+        dc.drawArc((centerX), (centerY*7)*animate2/10, (centerX/18), Graphics.ARC_CLOCKWISE, 360, 180);
         dc.drawArc((centerX*18)/20, (centerY*7)*animate2/10, (centerX/18), Graphics.ARC_CLOCKWISE, 360, 180);
          }else if (today.min%3==2){
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);

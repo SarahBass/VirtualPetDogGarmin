@@ -98,7 +98,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
         batteryText.setText("      = " + Lang.format("$1$",[((myStats.battery)).format("%2d")]) + "%");
         heartText.setText("           + "+heart);
         stepText.setText(info.steps+" ^           ");
-        calorieText.setText(info.calories+" ~       ");
+        calorieText.setText(info.calories+" ~           ");
         temperatureText.setText(weather(cond));
         temperatureText1.setText("  "+TEMP+FC+"  ");
         // Call the parent onUpdate function to redraw the layout
@@ -182,11 +182,11 @@ class BlobbyPetView extends WatchUi.WatchFace {
         dc.drawArc((centerX*12)/10, ((centerY*13)*animate2/20), centerX/13, Graphics.ARC_CLOCKWISE, 180, 360);
         } else if (today.min%5==2){
 
-        dc.drawLine((centerX*13)/20, ((centerY*3)*animate2/5), (centerX*16)/20, ((centerX*7)*animate2/10));
-        dc.drawLine((centerX*23)/20, ((centerY*7)*animate2/10), (centerX*26)/20, ((centerX*3)*animate2/5));
+        dc.drawLine((centerX*13)/20, ((centerY*3)*animate2/5), (centerX*16)/20, ((centerY*7)*animate2/10));
+        dc.drawLine((centerX*23)/20, ((centerY*7)*animate2/10), (centerX*26)/20, ((centerY*3)*animate2/5));
         } else if (today.min%5==3){
-        dc.drawLine((centerX*14)/20, ((centerY*3)*animate2/5), (centerX*17)/20, ((centerX*3)*animate2/5));
-        dc.drawLine((centerX*22)/20, ((centerY*3)*animate2/5), (centerX*25)/20, ((centerX*3)*animate2/5));
+        dc.drawLine((centerX*14)/20, ((centerY*3)*animate2/5), (centerX*17)/20, ((centerY*3)*animate2/5));
+        dc.drawLine((centerX*22)/20, ((centerY*3)*animate2/5), (centerX*25)/20, ((centerY*3)*animate2/5));
         } else if (today.min%5==4){
         dc.fillEllipse(centerX*0.75, (centerY*6)*animate2/10, ((centerX)/25), (centerX/20));  
         dc.fillEllipse(centerX*1.15, (centerY*6)*animate2/10, ((centerX)/25), (centerX/20));

@@ -86,8 +86,12 @@ class BlobbyPetView extends WatchUi.WatchFace {
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
         dc.setPenWidth(10);
-        var outercolor = 0x9AFF90;
-        var innercolor = 0x48FF35;
+        
+        var ColorArrayInner = [Graphics.COLOR_WHITE,0x48FF35,0xFFFF35,0xEF1EB8,0x00F7EE,0x9AFF90,0xFFB2EB,0x9AFFFB ];
+        var ColorArrayOuter = [0x48FF35, 0x9AFF90,Graphics.COLOR_WHITE,0xFFB2EB,0x9AFFFB,0x48FF35,0xEF1EB8,0x00F7EE ];
+        var outercolor = ColorArrayOuter[today.day_of_week];
+        var innercolor = ColorArrayInner[today.day_of_week];
+        //3 pink is a problem with cheeks
         var animate = 1;
         if (today.sec%2 == 0){animate = 0.75;}else {animate =1;}
         var animate2 = 1;

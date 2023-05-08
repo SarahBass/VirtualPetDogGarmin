@@ -97,12 +97,14 @@ class BlobbyPetView extends WatchUi.WatchFace {
         timeText.locY = (((System.getDeviceSettings().screenHeight)/30));
         batteryText.locX = (((System.getDeviceSettings().screenWidth)/30));
         heartText.locX = (((System.getDeviceSettings().screenWidth)*28/30));
-        stepText.locX = (((System.getDeviceSettings().screenWidth)*2/30));
-        stepText.locY = (((System.getDeviceSettings().screenHeight)*8/30));
+        stepText.locX = (((System.getDeviceSettings().screenWidth)*3/30));
+        stepText.locY = (((System.getDeviceSettings().screenHeight)*9/30));
         calorieText.locX = (((System.getDeviceSettings().screenWidth)*27/30));
-        calorieText.locY = (((System.getDeviceSettings().screenHeight)*8/30));
-        temperatureText.locY = (((System.getDeviceSettings().screenHeight)*23/30));
-        temperatureText1.locY = (((System.getDeviceSettings().screenHeight)*23/30));
+        calorieText.locY = (((System.getDeviceSettings().screenHeight)*9/30));
+        temperatureText.locY = (((System.getDeviceSettings().screenHeight)*17/30));
+        temperatureText1.locY = (((System.getDeviceSettings().screenHeight)*17/30));
+        temperatureText.locX = (((System.getDeviceSettings().screenWidth)*3/30));
+        temperatureText1.locX = (((System.getDeviceSettings().screenWidth)*27/30));
         timeText.setText(timeString);
         dateText.setText(weekdayArray[today.day_of_week]+" , "+ monthArray[today.month]+" "+ today.day +" " +today.year);
         batteryText.setText(" = " + Lang.format("$1$",[((myStats.battery)).format("%2d")]) + "%");
@@ -110,7 +112,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
         stepText.setText(" ^ "+info.steps);
         calorieText.setText(info.calories+" ~ ");
         temperatureText.setText(weather(cond));
-        temperatureText1.setText(TEMP+FC);
+        temperatureText1.setText(TEMP+" "+FC+" ");
         
         View.onUpdate(dc);
 

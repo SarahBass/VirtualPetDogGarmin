@@ -68,7 +68,21 @@ class BlobbyPetView extends WatchUi.WatchFace {
             }else{
                 AMPM = "M";
             }}
-        
+        var TempMetric = System.getDeviceSettings().temperatureUnits;
+    var TEMP;
+     if(Toybox.Weather.getCurrentConditions() != null){ TEMP= Toybox.Weather.getCurrentConditions().feelsLikeTemperature;}
+     else {TEMP = 61;}
+    var FC;
+    var cond;
+    if (Toybox.Weather.getCurrentConditions() != null){ cond = Toybox.Weather.getCurrentConditions().condition;}
+    else{cond = 0;}
+
+    if (TempMetric == System.UNIT_METRIC){  
+    FC = "C";
+    }else{
+    TEMP = (((((TEMP)*9)/5)+32).toNumber()); 
+    FC = "F";   
+    }
         
         
         var time = View.findDrawableById("TimeLabel") as Text;
@@ -77,12 +91,16 @@ class BlobbyPetView extends WatchUi.WatchFace {
         var heartText = View.findDrawableById("heartLabel") as Text;
         var stepText = View.findDrawableById("stepsLabel") as Text;
         var calorieText = View.findDrawableById("caloriesLabel") as Text;
+        var temperatureText = View.findDrawableById("tempLabel") as Text;
+        var temperatureText1 = View.findDrawableById("tempLabel1") as Text;
         time.setText(timeString+AMPM );
         dateText.setText(weekdayArray[today.day_of_week]+" , "+ monthArray[today.month]+" "+ today.day +" " +today.year);
         batteryText.setText("= " + Lang.format("$1$",[((myStats.battery)).format("%2d")]) + "%");
         heartText.setText("+ "+heart);
         stepText.setText("^ "+info.steps);
         calorieText.setText("~ "+info.calories);
+        temperatureText.setText(weather(cond));
+        temperatureText1.setText("  "+TEMP+FC+"  ");
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
         dc.setPenWidth(10);
@@ -137,22 +155,55 @@ class BlobbyPetView extends WatchUi.WatchFace {
         }
 
         //Draw Face
-
-        //eyes
         dc.setPenWidth(5);
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        //eyes
+        if (today.min%5==0){
         dc.drawArc((centerX*15)/20, ((centerY*3)*animate2/5), centerX/13, Graphics.ARC_CLOCKWISE, 360, 180);
         dc.drawArc((centerX*12)/10, ((centerY*3)*animate2/5), centerX/13, Graphics.ARC_CLOCKWISE, 360, 180);
+        } else if (today.min%5==1){
+        dc.drawArc((centerX*15)/20, ((centerY*13)*animate2/20), centerX/13, Graphics.ARC_CLOCKWISE, 180, 360);
+        dc.drawArc((centerX*12)/10, ((centerY*13)*animate2/20), centerX/13, Graphics.ARC_CLOCKWISE, 180, 360);
+        } else if (today.min%5==2){
+
+        dc.drawLine((centerX*13)/20, ((centerY*3)*animate2/5), (centerX*16)/20, ((centerY*7)*animate2/10));
+        dc.drawLine((centerX*23)/20, ((centerY*7)*animate2/10), (centerX*26)/20, ((centerY*3)*animate2/5));
+        } else if (today.min%5==3){
+        dc.drawLine((centerX*14)/20, ((centerY*3)*animate2/5), (centerX*17)/20, ((centerY*3)*animate2/5));
+        dc.drawLine((centerX*22)/20, ((centerY*3)*animate2/5), (centerX*25)/20, ((centerY*3)*animate2/5));
+        } else if (today.min%5==4){
+        dc.fillEllipse(centerX*0.75, (centerY*6)*animate2/10, ((centerX)/25), (centerY/20));  
+        dc.fillEllipse(centerX*1.15, (centerY*6)*animate2/10, ((centerX)/25), (centerY/20));
+        } else{
+        dc.drawArc((centerX*15)/20, ((centerY*3)*animate2/5), centerX/13, Graphics.ARC_CLOCKWISE, 360, 180);
+        dc.drawArc((centerX*12)/10, ((centerY*3)*animate2/5), centerX/13, Graphics.ARC_CLOCKWISE, 360, 180);
+        }
+        
+        
+        
+        
         //cheeks
         dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);
         dc.fillEllipse((centerX*13)/20, ((centerY*7)*animate2)/10, centerX/15, centerY/30);
         dc.fillEllipse((centerX*26)/20, ((centerY*7)*animate2)/10, centerX/15, centerY/30);
         //mouth
-    
+        if (today.min%3==0){
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
         dc.drawCircle((centerX*19)/20, (centerY*7)*animate2/10, (centerX/18)*animate);
         dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle((centerX*19)/20, (centerY*7)*animate2/10, (centerX/23)*animate);
+        dc.fillCircle((centerX*19)/20, (centerY*7)*animate2/10, (centerX/23)*animate);}
+        else if (today.min%3==1){
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        dc.drawArc((centerX)/20, (centerY*7)*animate2/10, (centerX/18), Graphics.ARC_CLOCKWISE, 360, 180);
+        dc.drawArc((centerX*18)/20, (centerY*7)*animate2/10, (centerX/18), Graphics.ARC_CLOCKWISE, 360, 180);
+         }else if (today.min%3==2){
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        dc.drawArc((centerX*19)/20, (centerY*7)*animate2/10, (centerX/18)*animate, Graphics.ARC_CLOCKWISE, 360, 180);
+         }else{
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+        dc.drawCircle((centerX*19)/20, (centerY*7)*animate2/10, (centerX/18)*animate);
+        dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle((centerX*19)/20, (centerY*7)*animate2/10, (centerX/23)*animate);}
  
 if (mySettings.screenShape == 1){
 dc.setPenWidth(30);
@@ -184,18 +235,28 @@ dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 358, 357 - (info.s
 }
     }
 
-    // Called when this View is removed from the screen. Save the
-    // state of this View here. This includes freeing resources from
-    // memory.
-    function onHide() as Void {
-    }
+/*
+                   _   _             
+ __ __ _____ __ _| |_| |_  ___ _ _  
+ \ V  V / -_) _` |  _| ' \/ -_) '_| 
+  \_/\_/\___\__,_|\__|_||_\___|_|   
+                                    
+ 
+ */   
+       
+function weather(cond) {
+  if (cond == 0 || cond == 40){return "b";}//sun
+  else if (cond == 50 || cond == 49 ||cond == 47||cond == 45||cond == 44||cond == 42||cond == 31||cond == 27||cond == 26||cond == 25||cond == 24||cond == 21||cond == 18||cond == 15||cond == 14||cond == 13||cond == 11||cond == 3){return "a";}//rain
+  else if (cond == 52||cond == 20||cond == 2||cond == 1){return "e";}//cloud
+  else if (cond == 5 || cond == 8|| cond == 9|| cond == 29|| cond == 30|| cond == 33|| cond == 35|| cond == 37|| cond == 38|| cond == 39){return "g";}//wind
+  else if (cond == 51 || cond == 48|| cond == 46|| cond == 43|| cond == 10|| cond == 4){return "i";}//snow
+  else if (cond == 32 || cond == 37|| cond == 41|| cond == 42){return "f";}//whirl
+  else {return "c";}
+}
+    function onHide() as Void {}
 
-    // The user has just looked at their watch. Timers and animations may be started here.
-    function onExitSleep() as Void {
-    }
-
-    // Terminate any active timers and prepare for slow updates.
-    function onEnterSleep() as Void {
-    }
+    function onExitSleep() as Void {}
+ 
+    function onEnterSleep() as Void {}
 
 }

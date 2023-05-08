@@ -96,16 +96,46 @@ class BlobbyPetView extends WatchUi.WatchFace {
         if (today.sec%2 == 0){animate = 0.75;}else {animate =1;}
         var animate2 = 1;
         if (today.sec%2 == 0){animate2 = 0.95;}else {animate2 =1;}
-        //Draw Baby 
+        //Draw Body 
         dc.setColor(outercolor , Graphics.COLOR_TRANSPARENT);
         dc.drawEllipse(centerX, (centerY*3)*animate2/5, (centerX*1.25)/3, centerY/4);
         dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
         dc.fillEllipse(centerX, (centerY*3)*animate2/5, (centerX*1.25)/3, centerY/4);
+        //Draw Top of Head
+       
+        if ((today.day)%4 == 0){
         dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
         dc.drawEllipse(centerX, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
         dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
         dc.fillEllipse(centerX, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
-        
+        }else if (today.day%4 ==1){
+       dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
+        dc.drawEllipse(centerX*0.75, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
+        dc.drawEllipse(centerX*1.25, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
+        dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
+        dc.fillEllipse(centerX*0.75, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);  
+        dc.fillEllipse(centerX*1.25, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
+        }else if(today.day%4 ==2){
+        dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
+        dc.drawEllipse(centerX*0.75, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
+        dc.drawEllipse(centerX*1.25, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
+        dc.drawEllipse(centerX*1, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
+        dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
+        dc.fillEllipse(centerX*0.75, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);  
+        dc.fillEllipse(centerX*1.25, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
+        dc.fillEllipse(centerX*1, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
+        } else if(today.day%4 ==3){
+        dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
+        dc.drawEllipse(centerX, (centerY*1.5)*animate2/5, ((centerX)/9)*animate2, (centerY/6)*animate2);
+        dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
+        dc.fillEllipse(centerX, (centerY*1.5)*animate2/5, ((centerX)/9)*animate2, (centerY/6)*animate2);   
+        }else {
+        dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
+        dc.drawEllipse(centerX, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
+        dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
+        dc.fillEllipse(centerX, (centerY*1.25)*animate2/5, ((centerX)/6)*animate2, (centerY/8)*animate2);
+        }
+
         //Draw Face
 
         //eyes

@@ -98,9 +98,9 @@ class BlobbyPetView extends WatchUi.WatchFace {
         batteryText.locX = (((System.getDeviceSettings().screenWidth)/30));
         heartText.locX = (((System.getDeviceSettings().screenWidth)*28/30));
         stepText.locX = (((System.getDeviceSettings().screenWidth)*3/30));
-        stepText.locY = (((System.getDeviceSettings().screenHeight)*9/30));
+        stepText.locY = (((System.getDeviceSettings().screenHeight)*10/30));
         calorieText.locX = (((System.getDeviceSettings().screenWidth)*27/30));
-        calorieText.locY = (((System.getDeviceSettings().screenHeight)*9/30));
+        calorieText.locY = (((System.getDeviceSettings().screenHeight)*10/30));
         temperatureText.locY = (((System.getDeviceSettings().screenHeight)*17/30));
         temperatureText1.locY = (((System.getDeviceSettings().screenHeight)*17/30));
         temperatureText.locX = (((System.getDeviceSettings().screenWidth)*3/30));

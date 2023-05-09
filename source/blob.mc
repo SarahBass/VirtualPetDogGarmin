@@ -38,7 +38,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
     }
 
     function onUpdate(dc as Dc) as Void {
-        
+        var fakesteps =9000;
         var timeFormat = "$1$:$2$";
        // var profile = UserProfile.getProfile();
        var mySettings = System.getDeviceSettings();
@@ -61,13 +61,6 @@ class BlobbyPetView extends WatchUi.WatchFace {
         var weekdayArray = ["Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as Array<String>;
         var heart = "--";
          var monthArray = ["Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as Array<String>;
-         //   var AMPM = "";       
-    /*if (!System.getDeviceSettings().is24Hour) {
-        if (clockTime.hour > 12) {
-                AMPM = "N";
-            }else{
-                AMPM = "M";
-            }}*/
         var TempMetric = System.getDeviceSettings().temperatureUnits;
          var TEMP;
      if(Toybox.Weather.getCurrentConditions() != null){ TEMP= Toybox.Weather.getCurrentConditions().feelsLikeTemperature;}
@@ -109,7 +102,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
         dateText.setText(weekdayArray[today.day_of_week]+" , "+ monthArray[today.month]+" "+ today.day +" " +today.year);
         batteryText.setText(" = " + Lang.format("$1$",[((myStats.battery)).format("%2d")]) + "%");
         heartText.setText(heart+" + ");
-        stepText.setText(" ^ "+info.steps);
+        stepText.setText(" ^ "+fakesteps);
         calorieText.setText(info.calories+" ~ ");
         temperatureText.setText(weather(cond));
         temperatureText1.setText(TEMP+" "+FC+" ");
@@ -117,13 +110,15 @@ class BlobbyPetView extends WatchUi.WatchFace {
         View.onUpdate(dc);
 
         
-        dc.setPenWidth(10);
         var grow = 1;
-        
-        var fakesteps =2000;
-        //0-1000 egg
-        //1000-2000 no head change
-        //2000 + growth
+        //0-1000 egg + spots
+        //1000-2000 no head change - no spots
+        //2000 + growth + spots 
+        //5000 turns white + spots
+        //10000 + draw face on head + white + spots
+
+
+        dc.setPenWidth(10);
         if (fakesteps>2000){grow = 1 + fakesteps/5000;}else{grow = 1;}
         var ColorArrayInner = [Graphics.COLOR_WHITE,0x48FF35,0xFFFF35,0xEF1EB8,0x00F7EE,0x9AFF90,0xFFB2EB,0x9AFFFB,Graphics.COLOR_WHITE,0x48FF35,0xFFFF35,0x00F7EE,0x9AFF90,0xFFB2EB,0x9AFFFB ];
         var ColorArrayOuter = [0x48FF35, 0x9AFF90,Graphics.COLOR_WHITE,0xFFB2EB,0x9AFFFB,0x48FF35,0xEF1EB8,0x00F7EE ];
@@ -139,15 +134,15 @@ class BlobbyPetView extends WatchUi.WatchFace {
         //Draw Body 
         dc.setColor(outercolor , Graphics.COLOR_TRANSPARENT);
         dc.drawEllipse(centerX, ((centerY*3)*animate2/5), (centerX*1.25)/3, centerX/4);
-       if (info.steps >2000){
-        dc.drawEllipse(centerX*0.4*animate2, (centerY*4)*animate2/5, (centerX*1.25)/9, centerX/14);
-        dc.drawEllipse(centerX*1.6*animate3, (centerY*4)*animate2/5, (centerX*1.25)/9, centerX/14);
+       if (fakesteps >2000){
+        dc.drawEllipse(centerX*0.5*animate2, (centerY*0.75)*animate2, (centerX*1.25)/9, centerX/14);
+        dc.drawEllipse(centerX*1.5*animate3, (centerY*0.75)*animate2, (centerX*1.25)/9, centerX/14);
        }else{}
         dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
         dc.fillEllipse(centerX, (centerY*3)*animate2/5, (centerX*1.25)/3, centerX/4);
-        if (info.steps >2000){
-        dc.fillEllipse((centerX*0.4)*animate2, (centerY*4)*animate2/5, (centerX*1.25)/9, centerX/14);
-        dc.fillEllipse(centerX*1.6*animate3, (centerY*4)*animate2/5, (centerX*1.25)/9, centerX/14);
+        if (fakesteps >2000){
+        dc.fillEllipse((centerX*0.5)*animate2, (centerY*0.75)*animate2, (centerX*1.25)/9, centerX/14);
+        dc.fillEllipse(centerX*1.5*animate3, (centerY*0.75)*animate2, (centerX*1.25)/9, centerX/14);
         }else{}
         //Draw Top of Head
        
@@ -247,11 +242,11 @@ class BlobbyPetView extends WatchUi.WatchFace {
 
         //spots
          dc.setColor(ColorArrayInner[today.day_of_week+2], Graphics.COLOR_TRANSPARENT);
-         dc.fillEllipse((centerX), ((centerY*17)*animate2)/40, (centerX/25)*animate2*grow, (centerX/20)*animate2*grow);
+         dc.fillEllipse((centerX), ((centerY*17)*animate2)/40, (centerX/25)*animate2 ,(centerX/20)*animate2);
          dc.setColor(ColorArrayInner[today.day_of_week+3], Graphics.COLOR_TRANSPARENT);
-         dc.fillEllipse((centerX), ((centerY*15)*animate2)/40, (centerX/26)*animate2*grow, (centerX/24)*animate2*grow);
+         dc.fillEllipse((centerX), ((centerY*15)*animate2)/40, (centerX/26)*animate2, (centerX/24)*animate2);
          dc.setColor(ColorArrayInner[today.day_of_week+4], Graphics.COLOR_TRANSPARENT);
-         dc.fillEllipse((centerX*43)/40, ((centerY*16)*animate2)/40, (centerX/30)*animate2*grow, (centerX/26)*animate2*grow);
+         dc.fillEllipse((centerX*43)/40, ((centerY*16)*animate2)/40, (centerX/30)*animate2, (centerX/26)*animate2);
  
 if (mySettings.screenShape == 1){
 dc.setPenWidth(30);

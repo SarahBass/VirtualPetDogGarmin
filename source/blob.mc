@@ -38,9 +38,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
     }
 
     function onUpdate(dc as Dc) as Void {
-        var fakeday = 15;
-        var fakesteps =2000;
-        var fakedayofweek= 3;
+ 
         var timeFormat = "$1$:$2$";
        // var profile = UserProfile.getProfile();
        var mySettings = System.getDeviceSettings();
@@ -85,7 +83,9 @@ class BlobbyPetView extends WatchUi.WatchFace {
     TEMP = (((((TEMP)*9)/5)+32).toNumber()); 
     FC = "F";   
     }
-        
+        var fakeday = today.day;
+        var fakesteps =info.steps;
+        var fakedayofweek= today.day_of_week;   
         
         var timeText = View.findDrawableById("TimeLabel") as Text;
         var dateText = View.findDrawableById("DateLabel") as Text;

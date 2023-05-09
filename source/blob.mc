@@ -38,9 +38,9 @@ class BlobbyPetView extends WatchUi.WatchFace {
     }
 
     function onUpdate(dc as Dc) as Void {
-        var fakeday = 5;
-        var fakesteps =1500;
-        var fakedayofweek= 2;
+        var fakeday = 15;
+        var fakesteps =2000;
+        var fakedayofweek= 3;
         var timeFormat = "$1$:$2$";
        // var profile = UserProfile.getProfile();
        var mySettings = System.getDeviceSettings();
@@ -199,9 +199,9 @@ class BlobbyPetView extends WatchUi.WatchFace {
         dc.fillEllipse(centerX*1, (centerY*1.25)*animate2/3, ((centerX)/6)*animate2*grow*shrink, (centerX/8)*animate2*grow*shrink);
         } else if(fakeday%4 ==3){
         dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
-        dc.drawEllipse(centerX, (centerY*1.5)*animate2/3, ((centerX)/9)*animate2*grow*shrink, (centerX/6)*animate2*grow*shrink);
+        dc.drawEllipse(centerX, (centerY*1.2)*animate2/3, ((centerX)/9)*animate2*grow*shrink, (centerX/6)*animate2*grow*shrink);
         dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
-        dc.fillEllipse(centerX, (centerY*1.5)*animate2/3, ((centerX)/9)*animate2*grow*shrink, (centerX/6)*animate2*grow*shrink);   
+        dc.fillEllipse(centerX, (centerY*1.2)*animate2/3, ((centerX)/9)*animate2*grow*shrink, (centerX/6)*animate2*grow*shrink);   
         }else {
         dc.setColor(outercolor, Graphics.COLOR_TRANSPARENT);
         dc.drawEllipse(centerX, (centerY*1.25)*animate2/3, ((centerX)/6)*animate2*grow, (centerX/8)*animate2*grow*shrink);

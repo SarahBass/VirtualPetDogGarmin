@@ -38,9 +38,9 @@ class BlobbyPetView extends WatchUi.WatchFace {
     }
 
     function onUpdate(dc as Dc) as Void {
-        var fakeday = 4;
+        var fakeday = 1;
         
-        var fakesteps =9001;
+        var fakesteps =2500;
         var timeFormat = "$1$:$2$";
        // var profile = UserProfile.getProfile();
        var mySettings = System.getDeviceSettings();
@@ -131,8 +131,8 @@ class BlobbyPetView extends WatchUi.WatchFace {
         if (fakesteps>2000){grow = 1 + fakesteps/5000;}else{grow = 1;}
         var ColorArrayInner = [Graphics.COLOR_WHITE,0x48FF35,0xFFFF35,0xEF1EB8,0x00F7EE,0x9AFF90,0xFFB2EB,0x9AFFFB,Graphics.COLOR_WHITE,0x48FF35,0xFFFF35,0x00F7EE,0x9AFF90,0xFFB2EB,0x9AFFFB ];
         var ColorArrayOuter = [0x48FF35, 0x9AFF90,Graphics.COLOR_WHITE,0xFFB2EB,0x9AFFFB,0x48FF35,0xEF1EB8,0x00F7EE ];
-        var outercolor = ColorArrayOuter[today.day_of_week];
-        var innercolor = ColorArrayInner[today.day_of_week];
+        var outercolor = ColorArrayOuter[1];//today.day_of_week
+        var innercolor = ColorArrayInner[1];//today.day_of_week
         //3 pink is a problem with cheeks
         var animate = 1;
         if (today.sec%2 == 0){animate = 0.75;}else {animate =1;}
@@ -277,7 +277,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
         dc.fillCircle((centerX*19)/20, (centerY*7)*animate2/10, (centerX/23)*animate);}
 
         //spots
-        if (fakeday%4 == 0||fakeday%4 == 2){
+        if (fakeday%4 == 2||fakeday%4 == 1){
          dc.setColor(ColorArrayInner[today.day_of_week+2], Graphics.COLOR_TRANSPARENT);
          dc.fillEllipse((centerX*38)/40, ((centerY*23)*animate2)/40, (centerX/25)*animate2 ,(centerX/20)*animate2*shrink);
          dc.setColor(ColorArrayInner[today.day_of_week+3], Graphics.COLOR_TRANSPARENT);

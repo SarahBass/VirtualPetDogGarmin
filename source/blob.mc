@@ -38,9 +38,9 @@ class BlobbyPetView extends WatchUi.WatchFace {
     }
 
     function onUpdate(dc as Dc) as Void {
-        var fakeday = 2;
+        var fakeday = 4;
         
-        var fakesteps =2000;
+        var fakesteps =100;
         var timeFormat = "$1$:$2$";
        // var profile = UserProfile.getProfile();
        var mySettings = System.getDeviceSettings();
@@ -140,19 +140,26 @@ class BlobbyPetView extends WatchUi.WatchFace {
         if (today.sec%2 == 0){animate2 = 0.95;}else {animate2 =1;}
         var animate3 = 1;
         if (today.sec%2 == 0){animate3 = 1.05;}else {animate3 =1;}
-        //Draw Body 
+        
+        //0-1000egg
+        //oval body
+        //2000 hands
+        
+        if(fakesteps>1000){
         dc.setColor(outercolor , Graphics.COLOR_TRANSPARENT);
         dc.drawEllipse(centerX, ((centerY*3)*animate2/5), (centerX*1.25)*shrink/3, centerX*shrink/4);
        if (fakesteps >2000){
         dc.drawEllipse(centerX*0.5*animate2, (centerY*0.75)*animate2, (centerX*1.25*shrink)/9, centerX/14);
         dc.drawEllipse(centerX*1.5*animate3, (centerY*0.75)*animate2, (centerX*1.25*shrink)/9, centerX/14);
        }else{}
+
+        //body
         dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
         dc.fillEllipse(centerX, (centerY*3)*animate2/5, (centerX*1.25*shrink)/3, centerX*shrink/4);
         if (fakesteps >2000){
         dc.fillEllipse((centerX*0.5)*animate2, (centerY*0.75)*animate2, (centerX*1.25*shrink)/9, centerX*shrink/14);
         dc.fillEllipse(centerX*1.5*animate3, (centerY*0.75)*animate2, (centerX*1.25*shrink)/9, centerX*shrink/14);
-        }else{}
+        }
         //Draw Top of Head
        
        
@@ -190,7 +197,12 @@ class BlobbyPetView extends WatchUi.WatchFace {
         dc.setColor(innercolor, Graphics.COLOR_TRANSPARENT);
         dc.fillEllipse(centerX, (centerY*1.25)*animate2/3, ((centerX)/6)*animate2*grow, (centerX/8)*animate2*grow*shrink);
         }
-
+    }else{
+        dc.setColor(innercolor , Graphics.COLOR_TRANSPARENT);
+         dc.drawEllipse(centerX, ((centerY*10.5)*animate2/20), (centerX*1.25)*shrink/3, centerX*shrink*0.9/2);
+        dc.setColor(Graphics.COLOR_WHITE , Graphics.COLOR_TRANSPARENT);
+         dc.fillEllipse(centerX, ((centerY*10.5)*animate2/20), (centerX*1.25)*shrink/3, centerX*shrink*0.9/2);
+    }
 
 
 

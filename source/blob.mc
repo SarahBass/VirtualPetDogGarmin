@@ -250,8 +250,9 @@ class BlobbyPetView extends WatchUi.WatchFace {
         
         
         
-        //cheeks
-        dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);
+        //cheeks yellow on Tues - pink rest of days
+        if (today.day_of_week == 3){dc.setColor(0xFFFF35, Graphics.COLOR_TRANSPARENT);}else{dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);}
+    
         dc.fillEllipse((centerX*13)/20, ((centerY*13)*animate2)/20, centerX/15, centerX/30);
         dc.fillEllipse((centerX*26)/20, ((centerY*13)*animate2)/20, centerX/15, centerX/30);
         

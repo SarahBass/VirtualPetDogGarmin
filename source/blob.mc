@@ -38,9 +38,9 @@ class BlobbyPetView extends WatchUi.WatchFace {
     }
 
     function onUpdate(dc as Dc) as Void {
-        var fakeday = 1;
-        
-        var fakesteps =2500;
+        var fakeday = 5;
+        var fakesteps =1500;
+        var fakedayofweek= 2;
         var timeFormat = "$1$:$2$";
        // var profile = UserProfile.getProfile();
        var mySettings = System.getDeviceSettings();
@@ -50,7 +50,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
        var centerX = (dc.getWidth()) / 2;
        var centerY = (dc.getHeight());
        var shrink =1;
-      if (System.getDeviceSettings().screenHeight < 219){
+      if (System.getDeviceSettings().screenHeight < 300||mySettings.screenShape != 1){
              shrink=0.75;  
       }else{
               shrink =1; 
@@ -68,7 +68,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
         }
         var timeString = Lang.format(timeFormat, [hours, clockTime.min.format("%02d")]);
         var weekdayArray = ["Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as Array<String>;
-        var heart = "--";
+        var heart = "60";
          var monthArray = ["Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as Array<String>;
         var TempMetric = System.getDeviceSettings().temperatureUnits;
          var TEMP;
@@ -131,8 +131,8 @@ class BlobbyPetView extends WatchUi.WatchFace {
         if (fakesteps>2000){grow = 1 + fakesteps/5000;}else{grow = 1;}
         var ColorArrayInner = [Graphics.COLOR_WHITE,0x48FF35,0xFFFF35,0xEF1EB8,0x00F7EE,0x9AFF90,0xFFB2EB,0x9AFFFB,Graphics.COLOR_WHITE,0x48FF35,0xFFFF35,0x00F7EE,0x9AFF90,0xFFB2EB,0x9AFFFB ];
         var ColorArrayOuter = [0x48FF35, 0x9AFF90,Graphics.COLOR_WHITE,0xFFB2EB,0x9AFFFB,0x48FF35,0xEF1EB8,0x00F7EE ];
-        var outercolor = ColorArrayOuter[1];//today.day_of_week
-        var innercolor = ColorArrayInner[1];//today.day_of_week
+        var outercolor = ColorArrayOuter[fakedayofweek];//today.day_of_week
+        var innercolor = ColorArrayInner[fakedayofweek];//today.day_of_week
         //3 pink is a problem with cheeks
         var animate = 1;
         if (today.sec%2 == 0){animate = 0.75;}else {animate =1;}
@@ -251,7 +251,7 @@ class BlobbyPetView extends WatchUi.WatchFace {
         
         
         //cheeks yellow on Tues - pink rest of days
-        if (today.day_of_week == 3){dc.setColor(0xFFFF35, Graphics.COLOR_TRANSPARENT);}else{dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);}
+        if (fakedayofweek == 3||fakedayofweek == 6){dc.setColor(0xFFFF35, Graphics.COLOR_TRANSPARENT);}else{dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);}
     
         dc.fillEllipse((centerX*13)/20, ((centerY*13)*animate2)/20, centerX/15, centerX/30);
         dc.fillEllipse((centerX*26)/20, ((centerY*13)*animate2)/20, centerX/15, centerX/30);
@@ -307,7 +307,7 @@ dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 0, 317);
 dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
 dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 315, 270);
 dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 268, 266 - (info.steps/56));
+dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 268, 266 - (fakesteps/56));
 }else 
 {
   dc.setPenWidth(15);

@@ -18,30 +18,16 @@
  |_|_|_|_| .__/\___/_|  \__/__/
          |_|                   
 ----------------------------------------------------------------*/
-import Toybox.Application;
 import Toybox.Graphics;
-import Toybox.Lang;
+import Toybox.Lang; 
 import Toybox.System;
 import Toybox.WatchUi;
-import Toybox.ActivityMonitor;
-import Toybox.Activity;
-import Toybox.Math;
-import Toybox.Application.Storage;
-import Toybox.Weather;
 import Toybox.Time;
-import Toybox.Position;
-using Toybox.Time;
-using Toybox.Math;
-using Toybox.Time.Gregorian;
-using Toybox.System; 
-using Toybox.UserProfile;
-using Toybox.ActivityMonitor;
-using Toybox.SensorHistory;
-using Toybox.Position;
-using Toybox.WatchUi as Ui;
-using Toybox.Graphics as Gfx;
-using Toybox.Application as App;
-
+import Toybox.Weather;
+import Toybox.Activity;
+import Toybox.ActivityMonitor;
+import Toybox.Time.Gregorian;
+import Toybox.UserProfile;
  	
 //--------------------------------------------------//
 /*            
@@ -61,13 +47,8 @@ using Toybox.Application as App;
     }    
 */
 //---------------------------------------------------//
-class VirtualPetDogView extends Ui.WatchFace {
-var mySettings = System.getDeviceSettings();
-var sensorIter = getIterator();
-const venus2X = LAYOUT_HALIGN_CENTER;
-const venus2Y = 145;
-const venus2XL = 50;
-const venus2XR =  mySettings.screenWidth *0.5;
+class VirtualPetStarNBView extends WatchUi.WatchFace {
+
 /*
   _      _ _   _      _ _        
  (_)_ _ (_) |_(_)__ _| (_)______ 
@@ -77,33 +58,24 @@ const venus2XR =  mySettings.screenWidth *0.5;
 */
 
     function initialize() {
-      WatchFace.initialize();
-      View.initialize();}
+      WatchFace.initialize();}
    
-    function onLayout(dc) as Void {setLayout(Rez.Layouts.WatchFace(dc));}
+     function onLayout(dc as Dc) as Void {
+        setLayout(Rez.Layouts.WatchFace(dc));
+    }
 
     function onShow() as Void {} 
    
-    function onUpdate(dc) as Void {
-/*
-               _      _    _        
- __ ____ _ _ _(_)__ _| |__| |___ ___
- \ V / _` | '_| / _` | '_ \ / -_|_-<
-  \_/\__,_|_| |_\__,_|_.__/_\___/__/
-                                    
-*/
-        
-
+        function onUpdate(dc as Dc) as Void {
         var profile = UserProfile.getProfile();
-        var timeFormat = "$1$:$2$";
-        var clockTime = System.getClockTime();
         var mySettings = System.getDeviceSettings();
-        var myStats = System.getSystemStats();
-        var info = ActivityMonitor.getInfo();
-        var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-        var timeStamp= new Time.Moment(Time.today().value());
-        var hours = clockTime.hour;
-        if (!System.getDeviceSettings().is24Hour) {
+       var myStats = System.getSystemStats();
+       var info = ActivityMonitor.getInfo();
+       var timeFormat = "$1$:$2$";
+       var clockTime = System.getClockTime();
+       var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+              var hours = clockTime.hour;
+               if (!System.getDeviceSettings().is24Hour) {
             if (hours > 12) {
                 hours = hours - 12;
             }
@@ -111,19 +83,57 @@ const venus2XR =  mySettings.screenWidth *0.5;
                 timeFormat = "$1$:$2$";
                 hours = hours.format("%02d");  
         }
+        var timeString = Lang.format(timeFormat, [hours, clockTime.min.format("%02d")]);
+        
+    var AMPM = "";       
+    if (!System.getDeviceSettings().is24Hour) {
+        if (clockTime.hour > 12) {
+                AMPM = "N";
+            }else{
+                AMPM = "M";
+            }}
+
+        var timeStamp= new Time.Moment(Time.today().value());
+        var weekdayArray = ["Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as Array<String>;
+        var monthArray = ["Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as Array<String>;
+        var chinesehoroscope = ["r", "q", "j", "s", "h", "K", "k", "m", "d", "o","p","L"] as Array<String>; 
+ var userBattery = "-";
+   if (myStats.battery != null){userBattery = Lang.format("$1$",[((myStats.battery.toNumber())).format("%2d")]);}else{userBattery="-";} 
+ 
+var userBIRTH =1989;
+if (profile.birthYear!= null){userBIRTH=(profile.birthYear).toNumber();}else{userBIRTH =1991;}
+
+   var userSTEPS = 0;
+   if (info.steps != null){userSTEPS = info.steps.toNumber();}else{userSTEPS=0;} 
+
+     var userCAL = 0;
+   if (info.calories != null){userCAL = info.calories.toNumber();}else{userCAL=0;}  
+   
+   var getCC = Toybox.Weather.getCurrentConditions();
+    var TEMP = "--";
+    var FC = "-";
+     if(getCC != null && getCC.temperature!=null){     
+        if (System.getDeviceSettings().temperatureUnits == 0){  
+    FC = "D";
+    TEMP = getCC.temperature.format("%d");
+    }else{
+    TEMP = (((getCC.temperature*9)/5)+32).format("%d"); 
+    FC = "A";   
+    }}
+     else {TEMP = "--";}
     
-    var timeString = Lang.format(timeFormat, [hours, clockTime.min.format("%02d")]);
-    var monthArray = ["Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as Array<String>;
-    var weekdayArray = ["Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as Array<String>;
-    var chinesehoroscope = ["r", "q", "j", "s", "h", "K", "k", "m", "d", "o","p","L"] as Array<String>; 
-    var heart = "";
-    if (clockTime.sec%2 == 0){if (sensorIter != null) {
-     heart =(sensorIter.next().data);
-    }else { heart = "--";}}else {heart = "--";}
+    var cond;
+    if (getCC != null){ cond = getCC.condition.toNumber();}
+    else{cond = 0;}//sun
+    
+   //Get and show Heart Rate Amount
 
+var userHEART = "--";
+if (getHeartRate() == null){userHEART = "--";}
+else if(getHeartRate() == 255){userHEART = "--";}
+else{userHEART = getHeartRate().toString();}
 
-  
-  var positions;
+      var positions;
         if (Toybox.Weather.getCurrentConditions().observationLocationPosition == null){
         positions=new Position.Location( 
     {
@@ -169,46 +179,10 @@ const venus2XR =  mySettings.screenWidth *0.5;
                 timeFormat = "$1$:$2$";
                 sunsetHour = sunsetHour.format("%02d");
         }
+  
 
-    var AMPM = "";       
-    if (!System.getDeviceSettings().is24Hour) {
-        if (clockTime.hour > 12) {
-                AMPM = "N";
-            }else{
-                AMPM = "M";
-            }}
 
-    
-    var TempMetric = System.getDeviceSettings().temperatureUnits;
-    var TEMP;
-     if(Toybox.Weather.getCurrentConditions() != null){ TEMP= Toybox.Weather.getCurrentConditions().feelsLikeTemperature;}
-     else {TEMP = 61;}
-    var FC;
-    var cond;
-    if (Toybox.Weather.getCurrentConditions() != null){ cond = Toybox.Weather.getCurrentConditions().condition;}
-    else{cond = 0;}
 
-    if (TempMetric == System.UNIT_METRIC){  
-    FC = "D";
-    }else{
-    TEMP = (((((TEMP)*9)/5)+32).toNumber()); 
-    FC = "A";   
-    }
-
-        var timeText = View.findDrawableById("TimeLabel") as Text;
-        var dateText = View.findDrawableById("DateLabel") as Text;
-        var batteryText = View.findDrawableById("batteryLabel") as Text;
-        var heartText = View.findDrawableById("heartLabel") as Text;
-        var stepText = View.findDrawableById("stepsLabel") as Text;
-        var calorieText = View.findDrawableById("caloriesLabel") as Text;
-        var horoscopeText = View.findDrawableById("horoscopeLabel") as Text;
-        var sunriseText = View.findDrawableById("sunriseLabel") as Text;
-        var sunsetText = View.findDrawableById("sunsetLabel") as Text;
-        var sunriseTextSU = View.findDrawableById("sunriseLabelSU") as Text;
-        var sunsetTextSD = View.findDrawableById("sunsetLabelSD") as Text;
-        var temperatureText = View.findDrawableById("tempLabel") as Text;
-        var connectTextP = View.findDrawableById("connectLabelP") as Text;
-        var connectTextB = View.findDrawableById("connectLabelB") as Text;
         var venus2YS;
         if (clockTime.sec%2==0){venus2YS=(mySettings.screenHeight *0.22)+2;}
         else{venus2YS=mySettings.screenHeight *0.22;} 
@@ -218,19 +192,35 @@ const venus2XR =  mySettings.screenWidth *0.5;
        var goal = goalPhase(info.steps,venus2YS); 
        var moonnumber = getMoonPhase(today.year, ((today.month)-1), today.day);  
        var moon1 = moonArrFun(moonnumber);
+       var centerX = (dc.getWidth()) / 2;
+        var timeText = View.findDrawableById("TimeLabel") as Text;
+        var dateText = View.findDrawableById("DateLabel") as Text;
+        var batteryText = View.findDrawableById("batteryLabel") as Text;
+        var heartText = View.findDrawableById("heartLabel") as Text;
+        var stepText = View.findDrawableById("stepsLabel") as Text;
+        var calorieText = View.findDrawableById("caloriesLabel") as Text;
+        var horoscopeText = View.findDrawableById("horoscopeLabel") as Text;
+        var sunriseText = View.findDrawableById("sunriseLabel") as Text;
+       var sunsetText = View.findDrawableById("sunsetLabel") as Text;
+        var sunriseTextSU = View.findDrawableById("sunriseLabelSU") as Text;
+        var sunsetTextSD = View.findDrawableById("sunsetLabelSD") as Text;
+        var temperatureText = View.findDrawableById("tempLabel") as Text;
+        var connectTextP = View.findDrawableById("connectLabelP") as Text;
+        var connectTextB = View.findDrawableById("connectLabelB") as Text;
+
 
         sunriseText.setText(sunriseHour + ":" + sunrise.min.format("%02u")+"AM");
         sunsetText.setText(sunsetHour + ":" + sunset.min.format("%02u")+"PM");
         temperatureText.setText(weather(cond)+TEMP+FC);
         timeText.setText(timeString+AMPM );
         dateText.setText(weekdayArray[today.day_of_week]+" , "+ monthArray[today.month]+" "+ today.day +" " +today.year);
-        batteryText.setText(Lang.format("$1$",[((myStats.battery)).format("%2d")]) + "%"+ " =  ");
-        heartText.setText(heart+" +  ");
-        stepText.setText(info.steps+" ^  ");
-        calorieText.setText(info.calories+" ~  ");
+        batteryText.setText(userBattery + "%"+ " =  ");
+        heartText.setText(userHEART+" +  ");
+        stepText.setText(userSTEPS+" ^  ");
+        calorieText.setText(userCAL+" ~  ");
         sunriseTextSU.setText("l");
         sunsetTextSD.setText("n");
-        horoscopeText.setText(chinesehoroscope[((((today.year).toNumber())%12).toNumber())] + ""+ chinesehoroscope[((((profile.birthYear).toNumber())%12).toNumber())] + "" + getHoroscope((today.month-1), today.day));
+        horoscopeText.setText(chinesehoroscope[((((today.year).toNumber())%12).toNumber())] + ""+ chinesehoroscope[(((userBIRTH)%12).toNumber())] + "" + getHoroscope((today.month-1), today.day));
         connectTextP.setText("  #  ");
         connectTextB.setText("  @  ");
           
@@ -255,24 +245,21 @@ const venus2XR =  mySettings.screenWidth *0.5;
         mouth.draw(dc);
         goal.draw(dc);
 
-
-var centerX = (dc.getWidth()) / 2;
-var centerY = (dc.getHeight()) / 2;
-
-if (mySettings.screenShape == 1){
+ if (mySettings.screenShape == 1){
 dc.setPenWidth(30);
+//0x555555 for 64 bit color and 16 bit color - only AMOLED can show 0x272727
 dc.setColor(0x272727, Graphics.COLOR_TRANSPARENT);
-dc.drawCircle(centerX, centerY, centerX);
+dc.drawCircle(centerX, centerX, centerX);
 dc.setColor(0x48FF35, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 90, 47);
+dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 90, 47);
 dc.setColor(0xFFFF35, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 45, 2);
+dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 45, 2);
 dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 0, 317);
+dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 0, 317);
 dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 315, 270);
+dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 315, 270);
 dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 268, 266 - (info.steps/56));
+dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 268, 266 - (userSTEPS/56));
 }else 
 {
   dc.setPenWidth(15);
@@ -287,6 +274,9 @@ dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 268, 266 - (info.s
   dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
   dc.drawLine(dc.getWidth(), 0, dc.getWidth(), dc.getHeight());
 }
+
+
+}
  /*
               _                 _      _       
   ___ _ _  __| |  _  _ _ __  __| |__ _| |_ ___ 
@@ -295,23 +285,52 @@ dc.drawArc(centerX, centerY, centerX, Graphics.ARC_CLOCKWISE, 268, 266 - (info.s
                       |_|                      
 */
 
- }
+
+/*
+   ___                _       __   __   _    _  
+  / __|__ _ _ _ _ __ (_)_ _   \ \ / /__(_)__| | 
+ | (_ / _` | '_| '  \| | ' \   \ V / _ \ / _` | 
+  \___\__,_|_| |_|_|_|_|_||_|   \_/\___/_\__,_| 
+                                                
+*/
+
+    function onHide() as Void {
+    }
+
+    function onExitSleep() as Void {
+    }
+
+    function onEnterSleep() as Void {
+    }
+
+
 
 /*
   _  _              _     ___      _       
  | || |___ __ _ _ _| |_  | _ \__ _| |_ ___ 
  | __ / -_) _` | '_|  _| |   / _` |  _/ -_)
  |_||_\___\__,_|_|  \__| |_|_\__,_|\__\___|
-                                           
 */
-function getIterator() {
-    // Check device for SensorHistory compatibility
-    if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getHeartRateHistory)) {
-        return Toybox.SensorHistory.getHeartRateHistory({});
+private function getHeartRate() {
+  // initialize it to null
+  var heartRate = null;
+
+  // Get the activity info if possible
+  var info = Activity.getActivityInfo();
+  if (info != null) {
+    heartRate = info.currentHeartRate;
+  } else {
+    // Fallback to `getHeartRateHistory`
+    var latestHeartRateSample = ActivityMonitor.getHeartRateHistory(1, true).next();
+    if (latestHeartRateSample != null) {
+      heartRate = latestHeartRateSample.heartRate;
     }
-    return null;
+  }
+
+  // Could still be null if the device doesn't support it
+  return heartRate;
 }
-  
+
 /*
   __  __                 ___ _                 
  |  \/  |___  ___ _ _   | _ \ |_  __ _ ___ ___ 
@@ -365,6 +384,9 @@ function getMoonPhase(year, month, day) {
      7 => Waning Crescent Moon
      */
 function moonArrFun(moonnumber){
+var venus2Y = 145;
+var venus2XL = 50;
+
   var moonArray= [
           (new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.newmoon,//0
@@ -521,6 +543,8 @@ function weather(cond) {
 */      
 
  function starPhase(steps,venus2YS){
+  var mySettings = System.getDeviceSettings();
+  var venus2XR =  mySettings.screenWidth *0.5;
   if (steps > 1000) {
     return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.star,
@@ -535,6 +559,8 @@ function weather(cond) {
         });}
  }
  function eyesPhase(minutes,venus2YS){
+  var mySettings = System.getDeviceSettings();
+  var venus2XR =  mySettings.screenWidth *0.5;
   if (minutes%2 == 0){
  return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.eyes,
@@ -549,7 +575,9 @@ function weather(cond) {
         }
 
 
- function mouthPhase(minutes, seconds,venus2YS){         
+ function mouthPhase(minutes, seconds,venus2YS){ 
+  var mySettings = System.getDeviceSettings();
+  var venus2XR =  mySettings.screenWidth *0.5;        
     if (minutes%4 == 0){
       if (seconds%2==0){
     return new WatchUi.Bitmap({
@@ -628,6 +656,8 @@ function weather(cond) {
 }
 
 function goalPhase(steps,venus2YS){
+  var mySettings = System.getDeviceSettings();
+  var venus2XR =  mySettings.screenWidth *0.5;
     var goal = Math.round(steps/1000).toNumber();
     /*
     blank-egg - blank
@@ -680,24 +710,8 @@ function goalPhase(steps,venus2YS){
         }
     
 
-/*
-   ___                _       __   __   _    _  
-  / __|__ _ _ _ _ __ (_)_ _   \ \ / /__(_)__| | 
- | (_ / _` | '_| '  \| | ' \   \ V / _ \ / _` | 
-  \___\__,_|_| |_|_|_|_|_||_|   \_/\___/_\__,_| 
-                                                
-*/
-
-    function onHide() as Void {
-    }
-
-    function onExitSleep() as Void {
-    }
-
-    function onEnterSleep() as Void {
-    }
-
 }
+
 /*
        Horoscope, Zodiac, and Weather Font:
         A FAR

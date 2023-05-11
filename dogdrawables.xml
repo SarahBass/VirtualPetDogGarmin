@@ -1,20 +1,38 @@
 <drawables>
     <bitmap id="LauncherIcon" filename="launcher_icon.png" />
     <bitmap id="blank" filename="blank.png" dithering="none"/>
-    <bitmap id="Dog0" filename="0.png" dithering="none"/>
-    <bitmap id="Dog1" filename="1.png"  dithering="none"/>
     <bitmap id="BIGDog0" filename="bigdog0.png" dithering="none"/>
     <bitmap id="BIGDog1" filename="bigdog1.png"  dithering="none"/>
+    <bitmap id="BIGDog2" filename="bigdog2.png" dithering="none"/>
+    <bitmap id="BIGDog3" filename="bigdog3.png"  dithering="none"/>
+    <bitmap id="BIGDog4" filename="bigdog3.png"  dithering="none"/>
     <bitmap id="SMALLDog0" filename="smalldog0.png" dithering="none"/>
     <bitmap id="SMALLDog1" filename="smalldog1.png"  dithering="none"/>
-<bitmap id="Dog2" filename="2.png"  dithering="none"/>
-<bitmap id="Dog3" filename="3.png"  dithering="none"/>
-<bitmap id="Dog4" filename="4.png"  dithering="none"/>
-<bitmap id="Dog5" filename="5.png"  dithering="none"/>
-<bitmap id="sleep0" filename="sleep0.png"  dithering="none"/>
-<bitmap id="sleep1" filename="sleep1.png"  dithering="none"/>
-<bitmap id="extra0" filename="extra2.png"  dithering="none"/>
-<bitmap id="extra1" filename="extra2.png"  dithering="none"/>
+    <bitmap id="SMALLDog2" filename="smalldog2.png" dithering="none"/>
+    <bitmap id="SMALLDog3" filename="smalldog3.png"  dithering="none"/>
+    <bitmap id="SMALLDog4" filename="smalldog4.png"  dithering="none"/>
+    <bitmap id="Dog0" filename="0.png" dithering="none"/>
+    <bitmap id="Dog1" filename="1.png"  dithering="none"/>
+    <bitmap id="Dog2" filename="2.png"  dithering="none"/>
+    <bitmap id="Dog3" filename="3.png"  dithering="none"/>
+    <bitmap id="Dog4" filename="4.png"  dithering="none"/>
+<bitmap id="extra0" filename="extra0.png"  dithering="none"/>
+<bitmap id="extra1" filename="extra1.png"  dithering="none"/>
+<bitmap id="smallextra0" filename="extra0.png"  dithering="none"/>
+<bitmap id="smallextra1" filename="extra1.png"  dithering="none"/>
+<bitmap id="smalljan" filename="smalljan.png"  dithering="none"/>
+<bitmap id="smallfeb" filename="smallfeb.png"  dithering="none"/>
+<bitmap id="smallmar" filename="smallmar.png"  dithering="none"/>
+<bitmap id="smallapr" filename="smallapr.png"  dithering="none"/>
+<bitmap id="smallmay" filename="smallmay.png"  dithering="none"/>
+<bitmap id="smalljun" filename="smalljun.png"  dithering="none"/>
+<bitmap id="smalljul" filename="smalljul.png"  dithering="none"/>
+<bitmap id="smallaug" filename="smallaug.png"  dithering="none"/>
+<bitmap id="smallsep" filename="smallsep.png"  dithering="none"/>
+<bitmap id="smalloct" filename="smalloct.png"  dithering="none"/>
+<bitmap id="smallnov" filename="smallnov.png"  dithering="none"/>
+<bitmap id="smalldec" filename="smalldec.png"  dithering="none"/>
+
 <bitmap id="jan" filename="jan.png"  dithering="none"/>
 <bitmap id="feb" filename="feb.png"  dithering="none"/>
 <bitmap id="mar" filename="mar.png"  dithering="none"/>

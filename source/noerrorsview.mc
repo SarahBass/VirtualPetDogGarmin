@@ -4,7 +4,7 @@ import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Time;
 import Toybox.Weather;
-import Toybox.ActivityMonitor;
+import Toybox.ActivityMonitor; 
 import Toybox.Time.Gregorian;
 
 class VirtualPetNothingView extends WatchUi.WatchFace {

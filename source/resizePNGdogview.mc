@@ -142,7 +142,7 @@ else{userHEART = getHeartRate().toString();}
         temperatureText.setText(weather(cond));
         temperatureText1.setText(TEMP+" "+FC+" ");
         var dog = dogPhase(today.sec, today.min);
-        var object = object(userSTEPS, today.month, today.hour);
+        var object = object(6000, 1, today.hour);//userSTEPS, today.month, today.hour
         View.onUpdate(dc);
         
        
@@ -231,11 +231,11 @@ var growY = 1;
       if (System.getDeviceSettings().screenHeight < 301){
         
         growX=1.25;
-        growY=growX*growX;
+        growY=1.5625;
       }else if (System.getDeviceSettings().screenHeight > 390){
         
-        growX=0.85;
-        growY=growX*growX;
+        growX=1.07;
+        growY=0.95;
       }else if (mySettings.screenShape != 1){
         
         growX=0.80;
@@ -425,7 +425,7 @@ var growY = 1;
       if (System.getDeviceSettings().screenHeight < 301){
         size=1;
         growX=1.25;
-        growY=growX*growX;
+        growY=1.5625;
       }else if (System.getDeviceSettings().screenHeight > 390){
         size=2;
         growX=0.85;

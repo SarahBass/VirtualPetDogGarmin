@@ -195,60 +195,79 @@ private function getHeartRate() {
 
 function dogPhase(seconds){
   var mySettings = System.getDeviceSettings();
-  var venus2X =  mySettings.screenWidth *0.25 ;
-  var venus2Y =  mySettings.screenWidth *0.18 ;
-  var size= 0;//0: normal 200 px 1:small 100 px 2:Large 200px 
-var shrink =1; //1.25 for shrink
-var grow = 1; //0.75 for grow
-      if (System.getDeviceSettings().screenHeight < 301||mySettings.screenShape != 1){
+  var size= 0;//0: normal 200 px 1:small 100 px 2:Large 200px 3:square
+var growX = 1; //0.75 for grow large 1.25 for shrink small 1 for normal or square
+var growY = 1;
+      if (System.getDeviceSettings().screenHeight < 301){
         size=1;
-        shrink=1.25;
-        grow=1;
-      }else if (System.getDeviceSettings().screenHeight > 390 ||mySettings.screenShape != 1){
+        growX=1.25;
+        growY=growX*growX;
+      }else if (System.getDeviceSettings().screenHeight > 390){
         size=2;
-        shrink=1;
-        grow=0.75;
+        growX=0.85;
+        growY=growX*growX;
+      }else if (mySettings.screenShape != 1){
+        size=3;
+        growX=0.80;
+        growY=1;
       }else{
         size=0;
-        shrink=1;
-        grow=1;
+        growX=1;
+        growY=1;
       }
+
+  var venus2X =  mySettings.screenWidth *0.25*growX ;
+  var venus2Y =  mySettings.screenHeight *0.18*growY ;
 
  if (size == 1){
   if (seconds%2 == 0){
  return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.SMALLDog0,
-            :locX=> venus2X*shrink,
-            :locY=>venus2Y*shrink*shrink
+            :locX=> venus2X,
+            :locY=>venus2Y
         });}
   else { return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.SMALLDog1,
-          :locX=> venus2X*shrink,
-            :locY=> venus2Y*shrink*shrink
+          :locX=> venus2X,
+            :locY=> venus2Y
         });}
  }else if (size == 2){
 if (seconds%2 == 0){
  return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.BIGDog0,
-            :locX=> venus2X*shrink,
-            :locY=>venus2Y*shrink*shrink
+            :locX=> venus2X,
+            :locY=>venus2Y
         });}
   else { return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.BIGDog1,
-          :locX=> venus2X*shrink,
-            :locY=> venus2Y*shrink*shrink
+          :locX=> venus2X,
+            :locY=> venus2Y
         });}
-        }else{
+        }else if(size==3){
           if (seconds%2 == 0){
  return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.Dog0,
-            :locX=> venus2X*shrink,
-            :locY=>venus2Y*shrink*shrink
+            :locX=> venus2X,
+            :locY=>venus2Y
         });}
   else { return new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.Dog1,
-          :locX=> venus2X*shrink,
-            :locY=> venus2Y*shrink*shrink
+          :locX=> venus2X,
+            :locY=> venus2Y
+        });}
+        }
+        
+        else{
+          if (seconds%2 == 0){
+ return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.Dog0,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        });}
+  else { return new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.Dog1,
+          :locX=> venus2X,
+            :locY=> venus2Y
         });}
         }
         

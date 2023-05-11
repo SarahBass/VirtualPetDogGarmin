@@ -141,7 +141,7 @@ else{userHEART = getHeartRate().toString();}
         calorieText.setText(userCAL+" ~ ");
         temperatureText.setText(weather(cond));
         temperatureText1.setText(TEMP+" "+FC+" ");
-        var dog = dogPhase(today.sec);
+        var dog = dogPhase(today.sec, today.min);
         var object = object(userSTEPS, today.month);
         View.onUpdate(dc);
         
@@ -357,7 +357,7 @@ else{
 return objectARRAY[(month-1)];}
 }
 
-function dogPhase(seconds){
+function dogPhase(seconds, minutes){
   var mySettings = System.getDeviceSettings();
   var size= 0;//0: normal 200 px 1:small 100 px 2:Large 200px 3:square
 var growX = 1; //0.75 for grow large 1.25 for shrink small 1 for normal or square
@@ -383,61 +383,121 @@ var growY = 1;
   var venus2X =  mySettings.screenWidth *0.25*growX ;
   var venus2Y =  mySettings.screenHeight *0.18*growY ;
 
- if (size == 1){
-  if (seconds%2 == 0){
- return new WatchUi.Bitmap({
+ var smalldogARRAY = [
+(new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.SMALLDog0,
             :locX=> venus2X,
             :locY=>venus2Y
-        });}
-  else { return new WatchUi.Bitmap({
+        })),
+        (new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.SMALLDog1,
-          :locX=> venus2X,
-            :locY=> venus2Y
-        });}
- }else if (size == 2){
-if (seconds%2 == 0){
- return new WatchUi.Bitmap({
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.SMALLDog2,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.SMALLDog3,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.SMALLDog4,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        }))
+ ];
+        
+   var bigdogARRAY = [
+(new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.BIGDog0,
             :locX=> venus2X,
             :locY=>venus2Y
-        });}
-  else { return new WatchUi.Bitmap({
+        })),
+        (new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.BIGDog1,
-          :locX=> venus2X,
-            :locY=> venus2Y
-        });}
-        }else if(size==3){
-          if (seconds%2 == 0){
- return new WatchUi.Bitmap({
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.BIGDog2,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.BIGDog3,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.BIGDog4,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        }))
+ ];      
+
+   var dogARRAY = [
+(new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.Dog0,
             :locX=> venus2X,
             :locY=>venus2Y
-        });}
-  else { return new WatchUi.Bitmap({
+        })),
+        (new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.Dog1,
-          :locX=> venus2X,
-            :locY=> venus2Y
-        });}
-        }
-        
-        else{
-          if (seconds%2 == 0){
- return new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.Dog0,
             :locX=> venus2X,
             :locY=>venus2Y
-        });}
-  else { return new WatchUi.Bitmap({
-            :rezId=>Rez.Drawables.Dog1,
-          :locX=> venus2X,
-            :locY=> venus2Y
-        });}
-        }
-        
-        }
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.Dog2,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.Dog3,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.Dog4,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        }))
+ ]; 
 
-
-
+if (size ==1){
+if (minutes%4 == 0){
+  if(seconds%2==0){return smalldogARRAY[1]; }else{return smalldogARRAY[0];}
+}else if (minutes%4 == 1){
+  if(seconds%2==0){return smalldogARRAY[1];}else{return smalldogARRAY[2];}
+}else if (minutes%4 == 2){
+  if(seconds%2==0){return smalldogARRAY[1];}else{return smalldogARRAY[3];}
+}else{
+if(seconds%2==0){return smalldogARRAY[0];}else{return smalldogARRAY[4];}
+}
+}else if(size==2){
+if (minutes%4 == 0){
+  if(seconds%2==0){return bigdogARRAY[1]; }else{return bigdogARRAY[0];}
+}else if (minutes%4 == 1){
+  if(seconds%2==0){return bigdogARRAY[1];}else{return bigdogARRAY[2];}
+}else if (minutes%4 == 2){
+  if(seconds%2==0){return bigdogARRAY[1];}else{return bigdogARRAY[3];}
+}else{
+if(seconds%2==0){return bigdogARRAY[0];}else{return bigdogARRAY[4];}
+}}
+else{
+  if (minutes%4 == 0){
+  if(seconds%2==0){return dogARRAY[1]; }else{return dogARRAY[0];}
+}else if (minutes%4 == 1){
+  if(seconds%2==0){return dogARRAY[1];}else{return dogARRAY[2];}
+}else if (minutes%4 == 2){
+  if(seconds%2==0){return dogARRAY[1];}else{return dogARRAY[3];}
+}else{
+if(seconds%2==0){return dogARRAY[0];}else{return dogARRAY[4];}
+}
+}
+}
 
 }

@@ -1,5 +1,5 @@
 # VirtualPetDogGarmin
 
-File with the base code for the star watch Beta Version
+Base code DUMP for Beta Versions of all Garmin Clocks and notes to self on Garmin Debugging and Unit Testing
 
-running at 35.3 kB memory
+

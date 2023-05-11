@@ -1,4 +1,4 @@
-import Toybox.Graphics; 
+import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.System;
 import Toybox.WatchUi;
@@ -224,9 +224,30 @@ private function getHeartRate() {
 }
 
 function object(userSTEPS, month){
- var mySettings = System.getDeviceSettings();
-      var venus2X =  mySettings.screenWidth *0.25 ;
-      var venus2Y =  mySettings.screenHeight *0.18 ;
+  var mySettings = System.getDeviceSettings();
+  var size= 0;//0: normal 200 px 1:small 100 px 2:Large 200px 3:square
+var growX = 1; //0.75 for grow large 1.25 for shrink small 1 for normal or square
+var growY = 1;
+      if (System.getDeviceSettings().screenHeight < 301){
+        size=1;
+        growX=1.25;
+        growY=growX*growX;
+      }else if (System.getDeviceSettings().screenHeight > 390){
+        size=2;
+        growX=0.85;
+        growY=growX*growX;
+      }else if (mySettings.screenShape != 1){
+        size=3;
+        growX=0.80;
+        growY=1;
+      }else{
+        size=0;
+        growX=1;
+        growY=1;
+      }
+
+  var venus2X =  mySettings.screenWidth *0.25*growX ;
+  var venus2Y =  mySettings.screenHeight *0.18*growY ;
 var objectARRAY=[
       (new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.jan,

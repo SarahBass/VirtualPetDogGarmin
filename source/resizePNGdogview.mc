@@ -142,7 +142,7 @@ else{userHEART = getHeartRate().toString();}
         temperatureText.setText(weather(cond));
         temperatureText1.setText(TEMP+" "+FC+" ");
         var dog = dogPhase(today.sec, today.min);
-        var object = object(userSTEPS, today.month);
+        var object = object(userSTEPS, today.month, today.hour);
         View.onUpdate(dc);
         
        
@@ -223,31 +223,66 @@ private function getHeartRate() {
   return heartRate;
 }
 
-function object(userSTEPS, month){
+function object(steps, month, hour){
   var mySettings = System.getDeviceSettings();
-  var size= 0;//0: normal 200 px 1:small 100 px 2:Large 200px 3:square
+  //0: normal 200 px 1:small 100 px 2:Large 200px 3:square
 var growX = 1; //0.75 for grow large 1.25 for shrink small 1 for normal or square
 var growY = 1;
       if (System.getDeviceSettings().screenHeight < 301){
-        size=1;
+        
         growX=1.25;
         growY=growX*growX;
       }else if (System.getDeviceSettings().screenHeight > 390){
-        size=2;
+        
         growX=0.85;
         growY=growX*growX;
       }else if (mySettings.screenShape != 1){
-        size=3;
+        
         growX=0.80;
         growY=1;
       }else{
-        size=0;
+        
         growX=1;
         growY=1;
       }
-
   var venus2X =  mySettings.screenWidth *0.25*growX ;
   var venus2Y =  mySettings.screenHeight *0.18*growY ;
+
+var extraArray = [
+  (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.blank,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+  (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.extra0,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.extra1,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        }))];
+        var extraArraysmall = [
+  (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.blank,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smallextra0,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+        (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smallextra1,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        }))];
+        
+
+
 var objectARRAY=[
       (new WatchUi.Bitmap({
             :rezId=>Rez.Drawables.jan,
@@ -373,9 +408,13 @@ var smallobjectARRAY=[
         }))
      ];
 
-if (System.getDeviceSettings().screenHeight < 301){return smallobjectARRAY[(month-1)];}
-else{
-return objectARRAY[(month-1)];}
+if (System.getDeviceSettings().screenHeight < 301){
+  if (steps>5000){return smallobjectARRAY[(month-1)];}else{return extraArraysmall[hour%3];}
+}else{
+  if (steps>5000){return objectARRAY[(month-1)];}else{return extraArray[hour%3];}
+}
+
+
 }
 
 function dogPhase(seconds, minutes){

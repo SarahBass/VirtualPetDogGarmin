@@ -103,7 +103,7 @@ else{userHEART = getHeartRate().toString();}
     else{connectTextB.setColor(0xEF1EB8);}
         connectTextP.setText("  #  ");
         connectTextB.setText("  @  ");
-        }else {}
+        }else { }
 
         dateText.locY = (((System.getDeviceSettings().screenHeight)*23/30));
         timeText.locY = (((System.getDeviceSettings().screenHeight)/30));
@@ -142,14 +142,16 @@ else{userHEART = getHeartRate().toString();}
         temperatureText.setText(weather(cond));
         temperatureText1.setText(TEMP+" "+FC+" ");
         var dog = dogPhase(today.sec);
-        
+        var object = object(userSTEPS, today.month);
         View.onUpdate(dc);
         
        
         dog.draw(dc);
-
+        object.draw(dc); 
         if (mySettings.screenShape == 1){
-dc.setPenWidth(30);
+          if(System.getDeviceSettings().screenHeight < 301){dc.setPenWidth(22);}
+          else{dc.setPenWidth(30);}
+
 //0x555555 for 64 bit color and 16 bit color - only AMOLED can show 0x272727
 dc.setColor(0x272727, Graphics.COLOR_TRANSPARENT);
 dc.drawCircle(centerX, centerX, centerX);
@@ -219,6 +221,140 @@ private function getHeartRate() {
 
   // Could still be null if the device doesn't support it
   return heartRate;
+}
+
+function object(userSTEPS, month){
+ var mySettings = System.getDeviceSettings();
+      var venus2X =  mySettings.screenWidth *0.25 ;
+      var venus2Y =  mySettings.screenHeight *0.18 ;
+var objectARRAY=[
+      (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.jan,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+              (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.feb,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+              (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.mar,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+              (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.apr,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+              (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.may,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+            (  new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.jun,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+           ( new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.jul,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+             (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.aug,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+            (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.sep,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+            (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.oct,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+            (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.nov,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+            (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.dec,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        }))
+     ];
+var smallobjectARRAY=[
+      (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smalljan,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+              (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smallfeb,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+              (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smallmar,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+              (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smallapr,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+              (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smallmay,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+            (  new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smalljun,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+           ( new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smalljul,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+             (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smallaug,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+            (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smallsep,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+            (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smalloct,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+            (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smallnov,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        })),
+            (new WatchUi.Bitmap({
+            :rezId=>Rez.Drawables.smalldec,
+            :locX=> venus2X,
+            :locY=>venus2Y
+        }))
+     ];
+
+if (System.getDeviceSettings().screenHeight < 301){return smallobjectARRAY[(month-1)];}
+else{
+return objectARRAY[(month-1)];}
 }
 
 function dogPhase(seconds){

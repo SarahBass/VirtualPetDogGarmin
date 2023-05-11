@@ -91,8 +91,36 @@ else{userHEART = getHeartRate().toString();}
         var calorieText = View.findDrawableById("caloriesLabel") as Text;
         var temperatureText = View.findDrawableById("tempLabel") as Text;
         var temperatureText1 = View.findDrawableById("tempLabel1") as Text;
+        
+        if (System.getDeviceSettings().screenHeight > 299){
+        var connectTextP = View.findDrawableById("connectLabelP") as Text;
+        var connectTextB = View.findDrawableById("connectLabelB") as Text;
+        connectTextP.locY = (((System.getDeviceSettings().screenHeight)*25.5/30));
+        connectTextB.locY = (((System.getDeviceSettings().screenHeight)*25.5/30));
+         if (mySettings.phoneConnected == true){connectTextP.setColor(0x48FF35);}
+    else{connectTextP.setColor(0xEF1EB8);}
+    if (myStats.charging == true){connectTextB.setColor(0x48FF35);}
+    else{connectTextB.setColor(0xEF1EB8);}
+        connectTextP.setText("  #  ");
+        connectTextB.setText("  @  ");
+        }else {}
+
         dateText.locY = (((System.getDeviceSettings().screenHeight)*23/30));
         timeText.locY = (((System.getDeviceSettings().screenHeight)/30));
+        
+        if(mySettings.screenShape != 1){
+          
+        batteryText.locX = (((System.getDeviceSettings().screenWidth)/30));
+        heartText.locX = (((System.getDeviceSettings().screenWidth)*28/30));
+        stepText.locX = (((System.getDeviceSettings().screenWidth)*3/30));
+        stepText.locY = (((System.getDeviceSettings().screenHeight)*7/30));
+        calorieText.locX = (((System.getDeviceSettings().screenWidth)*27/30));
+        calorieText.locY = (((System.getDeviceSettings().screenHeight)*7/30));
+        temperatureText.locY = (((System.getDeviceSettings().screenHeight)*19/30));
+        temperatureText1.locY = (((System.getDeviceSettings().screenHeight)*20/30));
+        temperatureText.locX = (((System.getDeviceSettings().screenWidth)*3/30));
+        temperatureText1.locX = (((System.getDeviceSettings().screenWidth)*27/30));
+        }else{
         batteryText.locX = (((System.getDeviceSettings().screenWidth)/30));
         heartText.locX = (((System.getDeviceSettings().screenWidth)*28/30));
         stepText.locX = (((System.getDeviceSettings().screenWidth)*3/30));
@@ -103,7 +131,7 @@ else{userHEART = getHeartRate().toString();}
         temperatureText1.locY = (((System.getDeviceSettings().screenHeight)*17/30));
         temperatureText.locX = (((System.getDeviceSettings().screenWidth)*3/30));
         temperatureText1.locX = (((System.getDeviceSettings().screenWidth)*27/30));
-    
+        }
     
         timeText.setText(timeString);
         dateText.setText(weekdayArray[today.day_of_week]+" , "+ monthArray[today.month]+" "+ today.day +" " +today.year);

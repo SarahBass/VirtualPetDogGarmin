@@ -25,6 +25,7 @@ class VirtualPetNothingView extends WatchUi.WatchFace {
 
     
     function onUpdate(dc as Dc) as Void {
+        var mySettings = System.getDeviceSettings();
        var myStats = System.getSystemStats();
        var info = ActivityMonitor.getInfo();
        var timeFormat = "$1$:$2$";
@@ -48,7 +49,9 @@ class VirtualPetNothingView extends WatchUi.WatchFace {
 
    var userSTEPS = 0;
    if (info.steps != null){userSTEPS = info.steps.toNumber();}else{userSTEPS=0;} 
-     
+
+  
+
      var userCAL = 0;
    if (info.calories != null){userCAL = info.calories.toNumber();}else{userCAL=0;}  
    
@@ -76,7 +79,8 @@ if (getHeartRate() == null){userHEART = "--";}
 else if(getHeartRate() == 255){userHEART = "--";}
 else{userHEART = getHeartRate().toString();}
 
-
+       var centerX = (dc.getWidth()) / 2;
+       //var centerY = (dc.getHeight());
 
 
         var timeText = View.findDrawableById("TimeLabel") as Text;
@@ -110,11 +114,39 @@ else{userHEART = getHeartRate().toString();}
         temperatureText.setText(weather(cond));
         temperatureText1.setText(TEMP+" "+FC+" ");
 
-
-
-
-
         View.onUpdate(dc);
+
+        if (mySettings.screenShape == 1){
+dc.setPenWidth(30);
+//0x555555 for 64 bit color and 16 bit color - only AMOLED can show 0x272727
+dc.setColor(0x272727, Graphics.COLOR_TRANSPARENT);
+dc.drawCircle(centerX, centerX, centerX);
+dc.setColor(0x48FF35, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 90, 47);
+dc.setColor(0xFFFF35, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 45, 2);
+dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 0, 317);
+dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 315, 270);
+dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+dc.drawArc(centerX, centerX, centerX, Graphics.ARC_CLOCKWISE, 268, 266 - (userSTEPS/56));
+}else 
+{
+  dc.setPenWidth(15);
+  dc.setColor(0x272727, Graphics.COLOR_TRANSPARENT);
+  dc.drawRectangle(0, 0, dc.getWidth(), dc.getHeight());
+  dc.setColor(0x48FF35, Graphics.COLOR_TRANSPARENT);
+  dc.drawLine(0, 0, dc.getWidth(), 0);
+  dc.setColor(0xFFFF35, Graphics.COLOR_TRANSPARENT);
+  dc.drawLine(dc.getWidth(), dc.getHeight(), 0, dc.getHeight());
+  dc.setColor(0xEF1EB8, Graphics.COLOR_TRANSPARENT);
+  dc.drawLine(0, 0, 0, dc.getHeight());
+  dc.setColor(0x00F7EE, Graphics.COLOR_TRANSPARENT);
+  dc.drawLine(dc.getWidth(), 0, dc.getWidth(), dc.getHeight());
+}
+
+        
     }
 
 

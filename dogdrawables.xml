@@ -1,0 +1,30 @@
+<drawables>
+    <bitmap id="LauncherIcon" filename="launcher_icon.png" />
+    <bitmap id="blank" filename="blank.png" dithering="none"/>
+    <bitmap id="Dog0" filename="0.png" dithering="none"/>
+    <bitmap id="Dog1" filename="1.png"  dithering="none"/>
+    <bitmap id="BIGDog0" filename="bigdog0.png" dithering="none"/>
+    <bitmap id="BIGDog1" filename="bigdog1.png"  dithering="none"/>
+    <bitmap id="SMALLDog0" filename="smalldog0.png" dithering="none"/>
+    <bitmap id="SMALLDog1" filename="smalldog1.png"  dithering="none"/>
+<bitmap id="Dog2" filename="2.png"  dithering="none"/>
+<bitmap id="Dog3" filename="3.png"  dithering="none"/>
+<bitmap id="Dog4" filename="4.png"  dithering="none"/>
+<bitmap id="Dog5" filename="5.png"  dithering="none"/>
+<bitmap id="sleep0" filename="sleep0.png"  dithering="none"/>
+<bitmap id="sleep1" filename="sleep1.png"  dithering="none"/>
+<bitmap id="extra0" filename="extra2.png"  dithering="none"/>
+<bitmap id="extra1" filename="extra2.png"  dithering="none"/>
+<bitmap id="jan" filename="jan.png"  dithering="none"/>
+<bitmap id="feb" filename="feb.png"  dithering="none"/>
+<bitmap id="mar" filename="mar.png"  dithering="none"/>
+<bitmap id="apr" filename="apr.png"  dithering="none"/>
+<bitmap id="may" filename="may.png"  dithering="none"/>
+<bitmap id="jun" filename="jun.png"  dithering="none"/>
+<bitmap id="jul" filename="jul.png"  dithering="none"/>
+<bitmap id="aug" filename="aug.png"  dithering="none"/>
+<bitmap id="sep" filename="sep.png"  dithering="none"/>
+<bitmap id="oct" filename="oct.png"  dithering="none"/>
+<bitmap id="nov" filename="nov.png"  dithering="none"/>
+<bitmap id="dec" filename="dec.png"  dithering="none"/>
+</drawables>

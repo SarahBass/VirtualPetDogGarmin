@@ -4,7 +4,8 @@ import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Time;
 import Toybox.Weather;
-import Toybox.ActivityMonitor; 
+import Toybox.Activity;
+import Toybox.ActivityMonitor;
 import Toybox.Time.Gregorian;
 
 class VirtualPetNothingView extends WatchUi.WatchFace {
@@ -68,7 +69,14 @@ class VirtualPetNothingView extends WatchUi.WatchFace {
     if (getCC != null){ cond = getCC.condition.toNumber();}
     else{cond = 0;}//sun
     
-    
+   //Get and show Heart Rate Amount
+
+var userHEART = "--";
+if (getHeartRate() == null){userHEART = "--";}
+else if(getHeartRate() == 255){userHEART = "--";}
+else{userHEART = getHeartRate().toString();}
+
+
 
 
         var timeText = View.findDrawableById("TimeLabel") as Text;
@@ -96,7 +104,7 @@ class VirtualPetNothingView extends WatchUi.WatchFace {
         timeText.setText(timeString);
         dateText.setText(weekdayArray[today.day_of_week]+" , "+ monthArray[today.month]+" "+ today.day +" " +today.year);
         batteryText.setText(" = "+userBattery+"%");
-        heartText.setText(" + ");
+        heartText.setText(userHEART+" + ");
         stepText.setText(" ^ "+userSTEPS);
         calorieText.setText(userCAL+" ~ ");
         temperatureText.setText(weather(cond));
@@ -126,6 +134,26 @@ function weather(cond) {
   else if (cond == 51 || cond == 48|| cond == 46|| cond == 43|| cond == 10|| cond == 4){return "i";}//snow
   else if (cond == 32 || cond == 37|| cond == 41|| cond == 42){return "f";}//whirlwind 
   else {return "c";}//suncloudrain 
+}
+
+private function getHeartRate() {
+  // initialize it to null
+  var heartRate = null;
+
+  // Get the activity info if possible
+  var info = Activity.getActivityInfo();
+  if (info != null) {
+    heartRate = info.currentHeartRate;
+  } else {
+    // Fallback to `getHeartRateHistory`
+    var latestHeartRateSample = ActivityMonitor.getHeartRateHistory(1, true).next();
+    if (latestHeartRateSample != null) {
+      heartRate = latestHeartRateSample.heartRate;
+    }
+  }
+
+  // Could still be null if the device doesn't support it
+  return heartRate;
 }
 
 }
